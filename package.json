@@ -1,0 +1,31 @@
+{
+  "name": "tree-sitter-curry",
+  "version": "0.0.0",
+  "description": "Curry grammar for tree-sitter",
+  "author": "Jan-Hendrik Matthes",
+  "main": "index.js",
+  "keywords": [
+    "curry",
+    "grammar",
+    "parser",
+    "tree-sitter"
+  ],
+  "homepage": "https://github.com/matthesjh/tree-sitter-curry",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matthesjh/tree-sitter-curry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/matthesjh/tree-sitter-curry/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.12.1"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.14.5"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build"
+  }
+}
