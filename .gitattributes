@@ -1,0 +1,3 @@
+/src/** linguist-vendored
+binding.gyp linguist-vendored
+index.js linguist-vendored
