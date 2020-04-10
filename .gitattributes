@@ -1,3 +1,6 @@
-/src/** linguist-vendored
+/src/tree_sitter/** linguist-vendored
+/src/*.json linguist-vendored
+/src/binding.cc linguist-vendored
+/src/parser.c linguist-vendored
 binding.gyp linguist-vendored
 index.js linguist-vendored
