@@ -28,5 +28,13 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.curry",
+      "file-types": [
+        "curry"
+      ]
+    }
+  ]
 }
