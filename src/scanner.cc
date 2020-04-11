@@ -49,14 +49,10 @@ struct Scanner {
     }
   }
 
-  void advance(TSLexer *lexer) {
-    lexer->advance(lexer, false);
-  }
-
   bool isolated_sequence(TSLexer *lexer, const char *sequence) {
     for (const char *c = sequence; *c; c++) {
       if (lexer->lookahead == *c) {
-        advance(lexer);
+        lexer->advance(lexer, false);
       } else {
         return false;
       }
@@ -193,12 +189,12 @@ struct Scanner {
     }
 
     if (lexer->lookahead == 'i') {
-      advance(lexer);
+      lexer->advance(lexer, false);
 
       if (iswspace(lexer->lookahead)) {
         return false;
       } else if (lexer->lookahead == 'n') {
-        advance(lexer);
+        lexer->advance(lexer, false);
 
         if (iswspace(lexer->lookahead)) {
           if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
@@ -209,17 +205,15 @@ struct Scanner {
             lexer->result_symbol = LAYOUT_CLOSE_BRACE;
 
             return true;
-          } else {
-            if (valid_symbols[LAYOUT_SEMICOLON]) {
-              if (indent_length_stack.size() > 0) {
-                indent_length_stack.pop_back();
-              }
-
-              queued_close_brace_count++;
-              lexer->result_symbol = LAYOUT_SEMICOLON;
-
-              return true;
+          } else if (valid_symbols[LAYOUT_SEMICOLON]) {
+            if (indent_length_stack.size() > 0) {
+              indent_length_stack.pop_back();
             }
+
+            queued_close_brace_count++;
+            lexer->result_symbol = LAYOUT_SEMICOLON;
+
+            return true;
           }
         } else {
           return false;
@@ -264,7 +258,7 @@ struct Scanner {
       return false;
     }
 
-    advance(lexer);
+    lexer->advance(lexer, false);
 
     bool next_token_is_comment = false;
     uint32_t indent_length = 0;
@@ -272,13 +266,13 @@ struct Scanner {
     for (;;) {
       if (lexer->lookahead == '\n') {
         indent_length = 0;
-        advance(lexer);
+        lexer->advance(lexer, false);
       } else if (lexer->lookahead == ' ') {
         indent_length++;
-        advance(lexer);
+        lexer->advance(lexer, false);
       } else if (lexer->lookahead == '\t') {
         indent_length += 8;
-        advance(lexer);
+        lexer->advance(lexer, false);
       } else if (lexer->lookahead == 0) {
         if (valid_symbols[LAYOUT_SEMICOLON]) {
           lexer->result_symbol = LAYOUT_SEMICOLON;
@@ -297,16 +291,16 @@ struct Scanner {
         next_token_is_comment = lexer->lookahead == '#';
 
         if (lexer->lookahead == '{') {
-          advance(lexer);
+          lexer->advance(lexer, false);
 
           if (lexer->lookahead == '-') {
-            advance(lexer);
+            lexer->advance(lexer, false);
             next_token_is_comment = lexer->lookahead != '#';
           }
         }
 
         if (lexer->lookahead == '-') {
-          advance(lexer);
+          lexer->advance(lexer, false);
           next_token_is_comment = lexer->lookahead == '}';
         }
 
@@ -347,17 +341,15 @@ struct Scanner {
           lexer->result_symbol = LAYOUT_CLOSE_BRACE;
 
           return true;
-        } else {
-          if (valid_symbols[LAYOUT_SEMICOLON]) {
-            if (indent_length_stack.size() > 0) {
-              indent_length_stack.pop_back();
-            }
-
-            queued_close_brace_count++;
-            lexer->result_symbol = LAYOUT_SEMICOLON;
-
-            return true;
+        } else if (valid_symbols[LAYOUT_SEMICOLON]) {
+          if (indent_length_stack.size() > 0) {
+            indent_length_stack.pop_back();
           }
+
+          queued_close_brace_count++;
+          lexer->result_symbol = LAYOUT_SEMICOLON;
+
+          return true;
         }
       }
 
@@ -373,12 +365,10 @@ struct Scanner {
             lexer->result_symbol = LAYOUT_CLOSE_BRACE;
 
             return true;
-          } else {
-            if (valid_symbols[LAYOUT_SEMICOLON]) {
-              lexer->result_symbol = LAYOUT_SEMICOLON;
+          } else if (valid_symbols[LAYOUT_SEMICOLON]) {
+            lexer->result_symbol = LAYOUT_SEMICOLON;
 
-              return true;
-            }
+            return true;
           }
         } else if (indent_length == indent_length_stack.back()) {
           if (valid_symbols[LAYOUT_SEMICOLON]) {
