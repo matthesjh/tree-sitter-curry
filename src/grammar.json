@@ -1,19 +1,162 @@
 {
   "name": "curry",
   "rules": {
-    "source_file": {
+    "module": {
       "type": "STRING",
-      "value": "hello"
+      "value": "module"
+    },
+    "comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "--"
+              },
+              {
+                "type": "PATTERN",
+                "value": ".*"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "{-"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^#]"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^-]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "-[^}]"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "STRING",
+                "value": "-}"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "cpp_directive": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        ]
+      }
+    },
+    "pragma": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{-#"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^#]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "#[^-]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "#\\-[^}]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "#-}"
+          }
+        ]
+      }
     }
   },
   "extras": [
     {
+      "type": "SYMBOL",
+      "name": "cpp_directive"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    },
+    {
       "type": "PATTERN",
-      "value": "\\s"
+      "value": "\\s|\\\\n"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "pragma"
     }
   ],
   "conflicts": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_layout_semicolon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_layout_open_brace"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_layout_close_brace"
+    },
+    {
+      "type": "STRING",
+      "value": "->"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_qualified_module_dot"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_initialize_layout"
+    }
+  ],
   "inline": [],
   "supertypes": []
 }
