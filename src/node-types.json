@@ -1,11 +1,263 @@
 [
   {
-    "type": "module",
+    "type": "constructor_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "export",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "all_constructors",
+          "named": true
+        },
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "label_identifier",
+          "named": true
+        },
+        {
+          "type": "label_operator",
+          "named": true
+        },
+        {
+          "type": "module_export",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_variable_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_variable_operator",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exports",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "export",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_identifier",
     "named": true,
     "fields": {}
   },
   {
     "type": "module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "exports",
+          "named": true
+        },
+        {
+          "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_module_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module_export",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_module_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "qualified_module_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_type_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_module_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_variable_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_module_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_variable_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_module_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "variable_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "all_constructors",
+    "named": true
+  },
+  {
+    "type": "label_operator",
+    "named": true
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "variable_operator",
+    "named": true
+  },
+  {
+    "type": "where",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]
