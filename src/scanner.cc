@@ -49,10 +49,18 @@ struct Scanner {
     }
   }
 
+  void advance(TSLexer *lexer) {
+    lexer->advance(lexer, false);
+  }
+
+  void skip(TSLexer *lexer) {
+    lexer->advance(lexer, true);
+  }
+
   bool isolated_sequence(TSLexer *lexer, const char *sequence) {
     for (const char *c = sequence; *c; c++) {
       if (lexer->lookahead == *c) {
-        lexer->advance(lexer, false);
+        advance(lexer);
       } else {
         return false;
       }
@@ -66,18 +74,18 @@ struct Scanner {
       lexer->mark_end(lexer);
 
       while (iswspace(lexer->lookahead)) {
-        lexer->advance(lexer, true);
+        skip(lexer);
       }
 
       if (lexer->lookahead == '{' || lexer->lookahead == '-') {
-        lexer->advance(lexer, true);
+        skip(lexer);
 
         if (lexer->lookahead == '-') {
           return false;
         }
       }
 
-      if (isolated_sequence(lexer, "module")) {
+      if (lexer->eof(lexer) || isolated_sequence(lexer, "module")) {
         return false;
       }
 
@@ -90,7 +98,7 @@ struct Scanner {
 
     if (valid_symbols[QUALIFIED_MODULE_DOT]) {
       if (lexer->lookahead == '.') {
-        lexer->advance(lexer, true);
+        skip(lexer);
 
         if (iswspace(lexer->lookahead)) {
           return false;
@@ -113,16 +121,20 @@ struct Scanner {
       lexer->mark_end(lexer);
 
       while (iswspace(lexer->lookahead)) {
-        lexer->advance(lexer, true);
+        skip(lexer);
+      }
+
+      if (lexer->eof(lexer)) {
+        return false;
       }
 
       uint32_t column = lexer->get_column(lexer);
 
       if (lexer->lookahead == '{') {
-        lexer->advance(lexer, true);
+        skip(lexer);
 
         if (lexer->lookahead == '-') {
-          lexer->advance(lexer, true);
+          skip(lexer);
 
           if (lexer->lookahead != '#') {
             return false;
@@ -144,7 +156,7 @@ struct Scanner {
     }
 
     while (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-      lexer->advance(lexer, true);
+      skip(lexer);
     }
 
     if (lexer->lookahead == 0) {
@@ -189,12 +201,12 @@ struct Scanner {
     }
 
     if (lexer->lookahead == 'i') {
-      lexer->advance(lexer, false);
+      advance(lexer);
 
       if (iswspace(lexer->lookahead)) {
         return false;
       } else if (lexer->lookahead == 'n') {
-        lexer->advance(lexer, false);
+        advance(lexer);
 
         if (iswspace(lexer->lookahead)) {
           if (valid_symbols[LAYOUT_CLOSE_BRACE]) {
@@ -244,6 +256,10 @@ struct Scanner {
       }
     }
 
+    if (lexer->eof(lexer)) {
+      return false;
+    }
+
     if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 0) {
       uint32_t column = lexer->get_column(lexer);
 
@@ -258,7 +274,7 @@ struct Scanner {
       return false;
     }
 
-    lexer->advance(lexer, false);
+    advance(lexer);
 
     bool next_token_is_comment = false;
     uint32_t indent_length = 0;
@@ -266,13 +282,13 @@ struct Scanner {
     for (;;) {
       if (lexer->lookahead == '\n') {
         indent_length = 0;
-        lexer->advance(lexer, false);
+        advance(lexer);
       } else if (lexer->lookahead == ' ') {
         indent_length++;
-        lexer->advance(lexer, false);
+        advance(lexer);
       } else if (lexer->lookahead == '\t') {
         indent_length += 8;
-        lexer->advance(lexer, false);
+        advance(lexer);
       } else if (lexer->lookahead == 0) {
         if (valid_symbols[LAYOUT_SEMICOLON]) {
           lexer->result_symbol = LAYOUT_SEMICOLON;
@@ -291,16 +307,16 @@ struct Scanner {
         next_token_is_comment = lexer->lookahead == '#';
 
         if (lexer->lookahead == '{') {
-          lexer->advance(lexer, false);
+          advance(lexer);
 
           if (lexer->lookahead == '-') {
-            lexer->advance(lexer, false);
+            advance(lexer);
             next_token_is_comment = lexer->lookahead != '#';
           }
         }
 
         if (lexer->lookahead == '-') {
-          lexer->advance(lexer, false);
+          advance(lexer);
           next_token_is_comment = lexer->lookahead == '}';
         }
 
