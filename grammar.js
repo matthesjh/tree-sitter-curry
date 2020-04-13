@@ -101,7 +101,65 @@ module.exports = grammar({
       )
     ),
 
-    _top_declaration: $ => 'DECL',
+    _top_declaration: $ => choice(
+      $.import_declaration
+    ),
+
+    import_declaration: $ => seq(
+      'import',
+      optional('qualified'),
+      $._import_declaration
+    ),
+
+    _import_declaration: $ => prec.right(seq(
+      choice(
+        $.import_alias,
+        $._qualified_module_identifier
+      ),
+      optional(choice(
+        $.import_spec,
+        $.hiding_import_spec
+      ))
+    )),
+
+    import_alias: $ => seq(
+      $._qualified_module_identifier,
+      'as',
+      $._qualified_module_identifier
+    ),
+
+    import_spec: $ => seq(
+      '(',
+      optional(sep1(',', $.import)),
+      ')'
+    ),
+
+    hiding_import_spec: $ => seq(
+      'hiding',
+      '(',
+      optional(sep1(',', $.import)),
+      ')'
+    ),
+
+    import: $ => seq(
+      choice(
+        $._variable,
+        seq(
+          $.type_identifier,
+          optional(choice(
+            optional($.all_constructors),
+            seq(
+              '(',
+              optional(sep1(',', choice(
+                $._label,
+                $.constructor_identifier
+              ))),
+              ')'
+            )
+          ))
+        )
+      )
+    ),
 
     _variable_identifier: $ => /[a-z](\w|')*/,
     variable_identifier: $ => $._variable_identifier,

@@ -11,7 +11,11 @@
 (pragma) @comment
 (cpp_directive) @comment
 
+"as" @keyword
+"hiding" @keyword
+"import" @keyword
 "module" @keyword
+"qualified" @keyword
 "where" @keyword
 
 "(" @punctuation.bracket
