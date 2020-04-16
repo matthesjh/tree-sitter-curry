@@ -75,6 +75,33 @@
     }
   },
   {
+    "type": "fixity_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "int",
+          "named": true
+        },
+        {
+          "type": "variable_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "hiding_import_spec",
     "named": true,
     "fields": {},
@@ -194,6 +221,11 @@
     }
   },
   {
+    "type": "int",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "label_identifier",
     "named": true,
     "fields": {}
@@ -208,6 +240,10 @@
       "types": [
         {
           "type": "exports",
+          "named": true
+        },
+        {
+          "type": "fixity_declaration",
           "named": true
         },
         {
@@ -356,6 +392,10 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "all_constructors",
     "named": true
   },
@@ -369,6 +409,18 @@
   },
   {
     "type": "import",
+    "named": false
+  },
+  {
+    "type": "infix",
+    "named": false
+  },
+  {
+    "type": "infixl",
+    "named": false
+  },
+  {
+    "type": "infixr",
     "named": false
   },
   {

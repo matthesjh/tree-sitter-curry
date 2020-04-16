@@ -1,3 +1,24 @@
+const digit = /[0-9]/;
+const binit = /[0-1]/;
+const octit = /[0-7]/;
+const hexit = /[0-9A-Fa-f]/;
+
+const decimal = repeat1(digit);
+const binary = repeat1(binit);
+const octal = repeat1(octit);
+const hexaDecimal = repeat1(hexit);
+
+const binaryLiteral = seq('0', choice('b', 'B'), binary);
+const octalLiteral = seq('0', choice('o', 'O'), octal);
+const hexaDecimalLiteral = seq('0', choice('x', 'X'), hexaDecimal);
+
+const exponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimal);
+
+const floatLiteral = choice(
+  seq(decimal, '.', decimal, optional(exponent)),
+  seq(decimal, exponent)
+);
+
 module.exports = grammar({
   name: 'curry',
 
@@ -102,7 +123,8 @@ module.exports = grammar({
     ),
 
     _top_declaration: $ => choice(
-      $.import_declaration
+      $.import_declaration,
+      $.fixity_declaration
     ),
 
     import_declaration: $ => seq(
@@ -160,6 +182,26 @@ module.exports = grammar({
         )
       )
     ),
+
+    fixity_declaration: $ => seq(
+      choice('infixl', 'infixr', 'infix'),
+      optional($.int),
+      sep1(',', $._op)
+    ),
+
+    _op: $ => choice(
+      $.variable_operator,
+      seq('`', choice($.constructor_identifier, $.variable_identifier), '`')
+    ),
+
+    int: $ => choice(
+      token(binaryLiteral),
+      token(octalLiteral),
+      token(hexaDecimalLiteral),
+      token(decimal)
+    ),
+
+    float: $ => token(floatLiteral),
 
     _variable_identifier: $ => /[a-z](\w|')*/,
     variable_identifier: $ => $._variable_identifier,
