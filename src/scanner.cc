@@ -102,11 +102,11 @@ struct Scanner {
 
         if (iswspace(lexer->lookahead)) {
           return false;
-        } else {
-          lexer->result_symbol = QUALIFIED_MODULE_DOT;
-
-          return true;
         }
+
+        lexer->result_symbol = QUALIFIED_MODULE_DOT;
+
+        return true;
       }
     }
 
@@ -242,17 +242,15 @@ struct Scanner {
         lexer->result_symbol = LAYOUT_CLOSE_BRACE;
 
         return true;
-      } else {
-        if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 1) {
-          if (indent_length_stack.size() > 0) {
-            indent_length_stack.pop_back();
-          }
+      }
 
-          queued_close_brace_count++;
-          lexer->result_symbol = LAYOUT_SEMICOLON;
+      if (valid_symbols[LAYOUT_SEMICOLON] && indent_length_stack.size() > 1) {
+        indent_length_stack.pop_back();
 
-          return true;
-        }
+        queued_close_brace_count++;
+        lexer->result_symbol = LAYOUT_SEMICOLON;
+
+        return true;
       }
     }
 
