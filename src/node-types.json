@@ -221,11 +221,6 @@
     }
   },
   {
-    "type": "int",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "label_identifier",
     "named": true,
     "fields": {}
@@ -422,6 +417,10 @@
   {
     "type": "infixr",
     "named": false
+  },
+  {
+    "type": "int",
+    "named": true
   },
   {
     "type": "label_operator",

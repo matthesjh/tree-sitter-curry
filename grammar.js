@@ -25,8 +25,8 @@ module.exports = grammar({
   extras: $ => [
     $.cpp_directive,
     $.comment,
-    /\s|\\n/,
-    $.pragma
+    $.pragma,
+    /\s|\\n/
   ],
 
   externals: $ => [
@@ -194,12 +194,12 @@ module.exports = grammar({
       seq('`', choice($.constructor_identifier, $.variable_identifier), '`')
     ),
 
-    int: $ => choice(
-      token(binaryLiteral),
-      token(octalLiteral),
-      token(hexaDecimalLiteral),
-      token(decimal)
-    ),
+    int: $ => token(choice(
+      binaryLiteral,
+      octalLiteral,
+      hexaDecimalLiteral,
+      decimal
+    )),
 
     float: $ => token(floatLiteral),
 
@@ -271,9 +271,8 @@ module.exports = grammar({
       seq('--', /.*/),
       seq(
         '{-',
-        /[^#]/,
-        repeat(choice(/[^-]/, /-[^}]/)),
-        '-}'
+        /[^#-]+-+([^{-][^-]*-+)*/,
+        '}'
       )
     )),
 
@@ -282,7 +281,7 @@ module.exports = grammar({
     pragma: $ => token(
       seq(
         '{-#',
-        repeat(choice(/[^#]/, /#[^-]/, /#\-[^}]/)),
+        repeat(choice(/[^#]/, /#[^-]/, /#-[^}]/)),
         '#-}'
       )
     ),
@@ -290,5 +289,5 @@ module.exports = grammar({
 });
 
 function sep1(sep, rule) {
-  return seq(rule, repeat(seq(sep, rule)))
+  return seq(rule, repeat(seq(sep, rule)));
 }

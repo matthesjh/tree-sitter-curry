@@ -797,11 +797,11 @@
       ]
     },
     "int": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
             "type": "SEQ",
             "members": [
               {
@@ -829,11 +829,8 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -861,11 +858,8 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
+          },
+          {
             "type": "SEQ",
             "members": [
               {
@@ -893,19 +887,16 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
+          },
+          {
             "type": "REPEAT1",
             "content": {
               "type": "PATTERN",
               "value": "[0-9]"
             }
           }
-        }
-      ]
+        ]
+      }
     },
     "float": {
       "type": "TOKEN",
@@ -1279,27 +1270,11 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[^#]"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^-]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "-[^}]"
-                    }
-                  ]
-                }
+                "value": "[^#-]+-+([^{-][^-]*-+)*"
               },
               {
                 "type": "STRING",
-                "value": "-}"
+                "value": "}"
               }
             ]
           }
@@ -1346,7 +1321,7 @@
                 },
                 {
                   "type": "PATTERN",
-                  "value": "#\\-[^}]"
+                  "value": "#-[^}]"
                 }
               ]
             }
@@ -1369,12 +1344,12 @@
       "name": "comment"
     },
     {
-      "type": "PATTERN",
-      "value": "\\s|\\\\n"
-    },
-    {
       "type": "SYMBOL",
       "name": "pragma"
+    },
+    {
+      "type": "PATTERN",
+      "value": "\\s|\\\\n"
     }
   ],
   "conflicts": [
