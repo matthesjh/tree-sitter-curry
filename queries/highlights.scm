@@ -1,16 +1,33 @@
+; Types
+
 (module_identifier) @type
 (type_identifier) @type
+
+; Constructors
+
 (constructor_identifier) @constructor
+
+; Functions
+
+(label (variable_identifier) @function)
 (variable_identifier) @function
+
+; Operators
+
+(label (variable_operator) @operator)
 (variable_operator) @operator
-(label_identifier) @function
-(label_operator) @operator
-(all_constructors) @punctuation.bracket
+
+; Numbers
+
 (int) @number
 
+; Comments
+
+(cpp_directive) @comment
 (comment) @comment
 (pragma) @comment
-(cpp_directive) @comment
+
+; Keywords
 
 "as" @keyword
 "hiding" @keyword
@@ -22,10 +39,14 @@
 "qualified" @keyword
 "where" @keyword
 
+; Punctuation
+
 "(" @punctuation.bracket
 ")" @punctuation.bracket
 "{" @punctuation.bracket
 "}" @punctuation.bracket
 "`" @punctuation.bracket
+(all_constructors) @punctuation.bracket
 
 "," @punctuation.delimiter
+(terminal) @punctuation.delimiter

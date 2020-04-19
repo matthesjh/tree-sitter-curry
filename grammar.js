@@ -47,7 +47,7 @@ module.exports = grammar({
     [$.qualified_module_identifier]
   ],
 
-  word: $ => $._variable_identifier,
+  word: $ => $._identifier,
 
   rules: {
     module: $ => choice(
@@ -59,11 +59,15 @@ module.exports = grammar({
       ),
       seq(
         $._initialize_layout,
-        repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon)))
+        repeat(seq($._top_declaration, choice($.terminal, $._layout_semicolon)))
       )
     ),
 
-    module_identifier: $ => /[A-Z](\w|')*/,
+    _identifier: $ => /[a-z](\w|')*/,
+    _capitalized_identifier: $ => /[A-Z](\w|')*/,
+    _operator: $ => /[~!@#$%^&*+\-=<>?./|\\\\:]+/,
+
+    module_identifier: $ => $._capitalized_identifier,
     qualified_module_identifier: $ => seq(
       repeat1(seq($.module_identifier, $._qualified_module_dot)),
       $.module_identifier
@@ -91,7 +95,7 @@ module.exports = grammar({
             seq(
               '(',
               optional(sep1(',', choice(
-                $._label,
+                alias($._variable, $.label),
                 $.constructor_identifier
               ))),
               ')'
@@ -116,12 +120,12 @@ module.exports = grammar({
     _top_declarations: $ => choice(
       seq(
         '{',
-        repeat(seq($._top_declaration, optional($._terminal))),
+        repeat(seq($._top_declaration, optional($.terminal))),
         '}'
       ),
       seq(
         $._layout_open_brace,
-        repeat(seq($._top_declaration, choice($._terminal, $._layout_semicolon))),
+        repeat(seq($._top_declaration, choice($.terminal, $._layout_semicolon))),
         $._layout_close_brace
       )
     ),
@@ -177,7 +181,7 @@ module.exports = grammar({
             seq(
               '(',
               optional(sep1(',', choice(
-                $._label,
+                alias($._variable, $.label),
                 $.constructor_identifier
               ))),
               ')'
@@ -195,7 +199,14 @@ module.exports = grammar({
 
     _op: $ => choice(
       $.variable_operator,
-      seq('`', choice($.constructor_identifier, $.variable_identifier), '`')
+      seq(
+        '`',
+        choice(
+          $.constructor_identifier,
+          $.variable_identifier
+        ),
+        '`'
+      )
     ),
 
     int: $ => token(choice(
@@ -207,8 +218,7 @@ module.exports = grammar({
 
     float: $ => token(floatLiteral),
 
-    _variable_identifier: $ => /[a-z](\w|')*/,
-    variable_identifier: $ => $._variable_identifier,
+    variable_identifier: $ => $._identifier,
     qualified_variable_identifier: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
@@ -219,7 +229,7 @@ module.exports = grammar({
       $.variable_identifier
     ),
 
-    variable_operator: $ => /[~!@#$%^&*+\-=<>?./|\\\\:]+/,
+    variable_operator: $ => $._operator,
     qualified_variable_operator: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
@@ -247,16 +257,7 @@ module.exports = grammar({
       )
     ),
 
-    _label: $ => choice(
-      alias($.variable_identifier, $.label_identifier),
-      seq(
-        '(',
-        alias($.variable_operator, $.label_operator),
-        ')'
-      )
-    ),
-
-    type_identifier: $ => /[A-Z](\w|')*/,
+    type_identifier: $ => $._capitalized_identifier,
     qualified_type_identifier: $ => seq(
       $._qualified_module_identifier,
       $._qualified_module_dot,
@@ -267,9 +268,9 @@ module.exports = grammar({
       $.type_identifier
     ),
 
-    constructor_identifier: $ => /[A-Z](\w|')*/,
+    constructor_identifier: $ => $._capitalized_identifier,
 
-    _terminal: $ => ';',
+    terminal: $ => ';',
 
     comment: $ => token(choice(
       seq('--', /.*/),
