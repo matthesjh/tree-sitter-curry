@@ -132,7 +132,8 @@ module.exports = grammar({
 
     _top_declaration: $ => choice(
       $.import_declaration,
-      $.fixity_declaration
+      $.fixity_declaration,
+      $.default_declaration
     ),
 
     import_declaration: $ => seq(
@@ -209,6 +210,95 @@ module.exports = grammar({
       )
     ),
 
+    default_declaration: $ => seq(
+      'default',
+      '(',
+      optional(sep1(',', $.type_expression)),
+      ')'
+    ),
+
+    type_expression: $ => seq(
+      repeat($.forall_vars),
+      optional(seq($.context, '=>')),
+      $.func_type_expression
+    ),
+
+    forall_vars: $ => seq(
+      'forall',
+      repeat1($.type_variable_identifier),
+      '.'
+    ),
+
+    context: $ => choice(
+      $.constraint,
+      seq(
+        '(',
+        optional(sep1(',', $.constraint)),
+        ')'
+      )
+    ),
+
+    constraint: $ => choice(
+      seq($._qualified_type_identifier, $.type_variable_identifier),
+      seq(
+        $._qualified_type_identifier,
+        '(',
+        $.type_variable_identifier,
+        repeat1($.simple_type_expression),
+        ')'
+      ),
+    ),
+
+    func_type_expression: $ => seq(
+      $.app_type_expression,
+      optional(seq(
+        '->',
+        $.type_expression
+      ))
+    ),
+
+    app_type_expression: $ => seq(
+      optional($.app_type_expression),
+      $.simple_type_expression
+    ),
+
+    simple_type_expression: $ => choice(
+      '_',
+      $.type_variable_identifier,
+      $.type_constructor,
+      $.tuple_type,
+      $.list_type,
+      $.paren_type
+    ),
+
+    tuple_type: $ => seq(
+      '(',
+      $.type_expression,
+      ',',
+      sep1(',', $.type_expression),
+      ')'
+    ),
+
+    list_type: $ => seq(
+      '[',
+      $.type_expression,
+      ']'
+    ),
+
+    paren_type: $ => seq(
+      '(',
+      $.type_expression,
+      ')'
+    ),
+
+    type_constructor: $ => prec.left(choice(
+      '()',
+      '[]',
+      '(->)',
+      seq('(', repeat1(','), ')'),
+      $._qualified_type_identifier
+    )),
+
     int: $ => token(choice(
       binaryLiteral,
       octalLiteral,
@@ -269,6 +359,8 @@ module.exports = grammar({
     ),
 
     constructor_identifier: $ => $._capitalized_identifier,
+
+    type_variable_identifier: $ => $._identifier,
 
     terminal: $ => ';',
 
