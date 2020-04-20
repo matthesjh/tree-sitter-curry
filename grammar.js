@@ -20,6 +20,7 @@ const floatLiteral = choice(
 );
 
 const PREC = {
+  CONSTRAINT: 1,
   PRAGMA: 1
 };
 
@@ -238,7 +239,7 @@ module.exports = grammar({
       )
     ),
 
-    constraint: $ => choice(
+    constraint: $ => prec(PREC.CONSTRAINT, choice(
       seq($._qualified_type_identifier, $.type_variable_identifier),
       seq(
         $._qualified_type_identifier,
@@ -247,7 +248,7 @@ module.exports = grammar({
         repeat1($.simple_type_expression),
         ')'
       ),
-    ),
+    )),
 
     func_type_expression: $ => seq(
       $.app_type_expression,
@@ -257,10 +258,7 @@ module.exports = grammar({
       ))
     ),
 
-    app_type_expression: $ => seq(
-      optional($.app_type_expression),
-      $.simple_type_expression
-    ),
+    app_type_expression: $ => repeat1($.simple_type_expression),
 
     simple_type_expression: $ => choice(
       '_',

@@ -8,10 +8,6 @@
       "required": true,
       "types": [
         {
-          "type": "app_type_expression",
-          "named": true
-        },
-        {
           "type": "simple_type_expression",
           "named": true
         }
