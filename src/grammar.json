@@ -995,54 +995,50 @@
       ]
     },
     "constraint": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_type_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_variable_identifier"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_qualified_type_identifier"
+            },
+            {
+              "type": "STRING",
+              "value": "("
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_variable_identifier"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
                 "type": "SYMBOL",
-                "name": "_qualified_type_identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_variable_identifier"
+                "name": "simple_type_expression"
               }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_qualified_type_identifier"
-              },
-              {
-                "type": "STRING",
-                "value": "("
-              },
-              {
-                "type": "SYMBOL",
-                "name": "type_variable_identifier"
-              },
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "simple_type_expression"
-                }
-              },
-              {
-                "type": "STRING",
-                "value": ")"
-              }
-            ]
-          }
-        ]
-      }
+            },
+            {
+              "type": "STRING",
+              "value": ")"
+            }
+          ]
+        }
+      ]
     },
     "func_type_expression": {
       "type": "SEQ",
