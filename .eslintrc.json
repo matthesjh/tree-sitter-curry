@@ -37,7 +37,7 @@
     "no-extra-label": "error",
     "no-floating-decimal": "error",
     "no-lone-blocks": "error",
-    "no-multi-spaces": ["error", {"exceptions": {"ImportDeclaration": true, "VariableDeclarator": true}, "ignoreEOLComments": false}],
+    "no-multi-spaces": ["error", {"exceptions": {"ImportDeclaration": true, "VariableDeclarator": true}, "ignoreEOLComments": true}],
     "no-new": "error",
     "no-new-func": "error",
     "no-new-wrappers": "error",
