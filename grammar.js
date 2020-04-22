@@ -20,6 +20,8 @@ const floatLiteral = choice(
 );
 
 const PREC = {
+  CLASS_DECLARATION: 1,
+  INSTANCE_DECLARATION: 1,
   PRAGMA: 1,
   RECORD_DATA_CONSTRUCTOR: 1,
   TYPE_CONSTRUCTOR: 1
@@ -259,7 +261,9 @@ module.exports = grammar({
       $.fixity_declaration,
       $.default_declaration,
       $.datatype_declaration,
-      $.newtype_declaration
+      $.newtype_declaration,
+      $.class_declaration,
+      $.instance_declaration
     ),
 
     import_declaration: $ => seq(
@@ -500,7 +504,52 @@ module.exports = grammar({
         optional(sep1(',', $._qualified_type_identifier)),
         ')'
       )
-    )
+    ),
+
+    instance_type: $ => choice(
+      $.type_constructor,
+      seq('(', $.type_constructor, repeat($.type_variable_identifier), ')'),
+      seq('(', $.type_variable_identifier, ',', sep1(',', $.type_variable_identifier), ')'),
+      seq('[', $.type_variable_identifier, ']'),
+      seq('(', $.type_variable_identifier, '->', $.type_variable_identifier, ')')
+    ),
+
+    simple_context: $ => choice(
+      $.simple_constraint,
+      seq(
+        '(',
+        optional(sep1(',', $.simple_constraint)),
+        ')'
+      )
+    ),
+
+    simple_constraint: $ => seq(
+      $._qualified_type_identifier,
+      $.type_variable_identifier
+    ),
+
+    class_declaration: $ => prec(PREC.CLASS_DECLARATION, seq(
+      'class',
+      optional(seq($.simple_context, '=>')),
+      $.type_identifier,
+      $.type_variable_identifier,
+      $._where
+    )),
+
+    instance_declaration: $ => prec(PREC.INSTANCE_DECLARATION, seq(
+      'instance',
+      optional(seq($.simple_context, '=>')),
+      $._qualified_type_identifier,
+      $.instance_type,
+      $._where
+    )),
+
+    _where: $ => seq(
+      'where',
+      $._declarations
+    ),
+
+    _declarations: $ => 'DECL'
   }
 });
 

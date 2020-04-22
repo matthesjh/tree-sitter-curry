@@ -15,6 +15,29 @@
     }
   },
   {
+    "type": "class_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_context",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_variable_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constraint",
     "named": true,
     "fields": {},
@@ -460,6 +483,52 @@
     }
   },
   {
+    "type": "instance_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "instance_type",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "simple_context",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "instance_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_constructor",
+          "named": true
+        },
+        {
+          "type": "type_variable_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "label",
     "named": true,
     "fields": {},
@@ -502,6 +571,10 @@
       "required": false,
       "types": [
         {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
           "type": "datatype_declaration",
           "named": true
         },
@@ -519,6 +592,10 @@
         },
         {
           "type": "import_declaration",
+          "named": true
+        },
+        {
+          "type": "instance_declaration",
           "named": true
         },
         {
@@ -748,6 +825,44 @@
     }
   },
   {
+    "type": "simple_constraint",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_variable_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "simple_constraint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "simple_type",
     "named": true,
     "fields": {},
@@ -943,6 +1058,10 @@
     "named": false
   },
   {
+    "type": "class",
+    "named": false
+  },
+  {
     "type": "data",
     "named": false
   },
@@ -980,6 +1099,10 @@
   },
   {
     "type": "infixr",
+    "named": false
+  },
+  {
+    "type": "instance",
     "named": false
   },
   {
