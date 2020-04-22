@@ -42,6 +42,29 @@
     }
   },
   {
+    "type": "constructor_declarations",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "data_constructor",
+          "named": true
+        },
+        {
+          "type": "infix_data_constructor",
+          "named": true
+        },
+        {
+          "type": "record_data_constructor",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constructor_identifier",
     "named": true,
     "fields": {}
@@ -62,6 +85,48 @@
     }
   },
   {
+    "type": "data_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "simple_type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "datatype_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_declarations",
+          "named": true
+        },
+        {
+          "type": "deriving",
+          "named": true
+        },
+        {
+          "type": "simple_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "default_declaration",
     "named": true,
     "fields": {},
@@ -71,6 +136,25 @@
       "types": [
         {
           "type": "type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "deriving",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
           "named": true
         }
       ]
@@ -137,6 +221,40 @@
       "types": [
         {
           "type": "export",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field",
           "named": true
         }
       ]
@@ -319,6 +437,29 @@
     }
   },
   {
+    "type": "infix_data_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "app_type_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "variable_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "label",
     "named": true,
     "fields": {},
@@ -361,6 +502,10 @@
       "required": false,
       "types": [
         {
+          "type": "datatype_declaration",
+          "named": true
+        },
+        {
           "type": "default_declaration",
           "named": true
         },
@@ -378,6 +523,10 @@
         },
         {
           "type": "module_identifier",
+          "named": true
+        },
+        {
+          "type": "newtype_declaration",
           "named": true
         },
         {
@@ -414,6 +563,71 @@
     "type": "module_identifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "newtype_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "newtype_field",
+          "named": true
+        },
+        {
+          "type": "simple_type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "newtype_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "deriving",
+          "named": true
+        },
+        {
+          "type": "newtype_constructor",
+          "named": true
+        },
+        {
+          "type": "simple_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "newtype_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "type_expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "paren_type",
@@ -509,6 +723,44 @@
         },
         {
           "type": "variable_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_data_constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_identifier",
+          "named": true
+        },
+        {
+          "type": "fields",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_variable_identifier",
           "named": true
         }
       ]
@@ -651,6 +903,14 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "=>",
     "named": false
   },
@@ -683,7 +943,19 @@
     "named": false
   },
   {
+    "type": "data",
+    "named": false
+  },
+  {
     "type": "default",
+    "named": false
+  },
+  {
+    "type": "deriving",
+    "named": false
+  },
+  {
+    "type": "external",
     "named": false
   },
   {
@@ -719,6 +991,10 @@
     "named": false
   },
   {
+    "type": "newtype",
+    "named": false
+  },
+  {
     "type": "qualified",
     "named": false
   },
@@ -732,6 +1008,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {

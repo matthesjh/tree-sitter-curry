@@ -20,7 +20,9 @@ const floatLiteral = choice(
 );
 
 const PREC = {
-  PRAGMA: 1
+  PRAGMA: 1,
+  RECORD_DATA_CONSTRUCTOR: 1,
+  TYPE_CONSTRUCTOR: 1
 };
 
 module.exports = grammar({
@@ -44,7 +46,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._qualified_module_identifier, $.qualified_module_identifier],
-    [$.qualified_module_identifier]
+    [$.qualified_module_identifier],
+    [$.type_identifier, $.constructor_identifier]
   ],
 
   word: $ => $._identifier,
@@ -65,7 +68,25 @@ module.exports = grammar({
 
     _identifier: $ => /[a-z](\w|')*/,
     _capitalized_identifier: $ => /[A-Z](\w|')*/,
-    _operator: $ => /[~!@#$%^&*+\-=<>?./|\\\\:]+/,
+    _operator: $ => token(choice(
+      /\.\.[~!@#$%^&*+\-=<>?./|\\\\:]+/,                       // Prevents matching `..`.
+      /\./,                                                    // Matches the composition operator `.`.
+      /:[~!@#$%^&*+\-=<>?./|\\][~!@#$%^&*+\-=<>?./|\\\\:]*/,   // Prevents matching `:`.
+      /::[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `::`.
+      /=[~!@#$%^&*+\-=<?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/, // Prevents matching `=`.
+      /=>[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `=>`.
+      /\\[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `\`.
+      /\|[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `|`.
+      /<-[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `<-`.
+      /<[~!@#$%^&*+=<>?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/,  // Prevents matching `<-`.
+      /</,                                                     // Matches the lower than operator `<`.
+      /->[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `->`.
+      /-[~!@#$%^&*+\-=<?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/, // Prevents matching `->`.
+      /-/,                                                     // Matches the minus operator `-`.
+      /@[~!@#$%^&*+\-=<>?./|\\\\:]+/,                          // Prevents matching `@`.
+      /~[~!@#$%^&*+\-=<>?./|\\\\:]+/,                          // Prevents matching `~`.
+      /[!#$%^&*+>?/\\]+[~!@#$%^&*+\-=<>?./|\\\\:]*/            // Matches every other operator.
+    )),
 
     module_identifier: $ => $._capitalized_identifier,
     qualified_module_identifier: $ => seq(
@@ -76,6 +97,109 @@ module.exports = grammar({
       $.qualified_module_identifier,
       $.module_identifier
     ),
+
+    variable_identifier: $ => $._identifier,
+    qualified_variable_identifier: $ => seq(
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
+      $.variable_identifier
+    ),
+    _qualified_variable_identifier: $ => choice(
+      $.qualified_variable_identifier,
+      $.variable_identifier
+    ),
+
+    variable_operator: $ => $._operator,
+    qualified_variable_operator: $ => seq(
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
+      $.variable_operator
+    ),
+    _qualified_variable_operator: $ => choice(
+      $.qualified_variable_operator,
+      $.variable_operator
+    ),
+
+    _variable: $ => choice(
+      $.variable_identifier,
+      seq(
+        '(',
+        $.variable_operator,
+        ')'
+      )
+    ),
+    _qualified_variable: $ => choice(
+      $._qualified_variable_identifier,
+      seq(
+        '(',
+        $._qualified_variable_operator,
+        ')'
+      )
+    ),
+
+    _op: $ => choice(
+      $.variable_operator,
+      seq(
+        '`',
+        choice(
+          $.variable_identifier,
+          $.constructor_identifier
+        ),
+        '`'
+      )
+    ),
+
+    _con_op: $ => choice(
+      $.variable_operator,
+      seq(
+        '`',
+        $.constructor_identifier,
+        '`'
+      )
+    ),
+
+    type_identifier: $ => $._capitalized_identifier,
+    qualified_type_identifier: $ => seq(
+      $._qualified_module_identifier,
+      $._qualified_module_dot,
+      $.type_identifier
+    ),
+    _qualified_type_identifier: $ => choice(
+      $.qualified_type_identifier,
+      $.type_identifier
+    ),
+
+    type_variable_identifier: $ => $._identifier,
+
+    constructor_identifier: $ => $._capitalized_identifier,
+
+    terminal: $ => ';',
+
+    comment: $ => token(choice(
+      seq('--', /.*/),
+      seq(
+        '{-',
+        repeat(choice(/[^-]/, /-[^}]/)),
+        '-}'
+      )
+    )),
+
+    cpp_directive: $ => token(seq('#', /.*/)),
+
+    pragma: $ => token(prec(PREC.PRAGMA, seq(
+      '{-#',
+      repeat(choice(/[^#]/, /#[^-]/, /#-[^}]/)),
+      '#-}'
+    ))),
+
+    int: $ => token(choice(
+      binaryLiteral,
+      octalLiteral,
+      hexaDecimalLiteral,
+      decimal
+    )),
+
+    float: $ => token(floatLiteral),
 
     exports: $ => seq(
       '(',
@@ -91,7 +215,7 @@ module.exports = grammar({
         seq(
           $._qualified_type_identifier,
           optional(choice(
-            optional($.all_constructors),
+            $.all_constructors,
             seq(
               '(',
               optional(sep1(',', choice(
@@ -133,7 +257,9 @@ module.exports = grammar({
     _top_declaration: $ => choice(
       $.import_declaration,
       $.fixity_declaration,
-      $.default_declaration
+      $.default_declaration,
+      $.datatype_declaration,
+      $.newtype_declaration
     ),
 
     import_declaration: $ => seq(
@@ -178,7 +304,7 @@ module.exports = grammar({
         seq(
           $.type_identifier,
           optional(choice(
-            optional($.all_constructors),
+            $.all_constructors,
             seq(
               '(',
               optional(sep1(',', choice(
@@ -196,18 +322,6 @@ module.exports = grammar({
       choice('infixl', 'infixr', 'infix'),
       optional($.int),
       sep1(',', $._op)
-    ),
-
-    _op: $ => choice(
-      $.variable_operator,
-      seq(
-        '`',
-        choice(
-          $.constructor_identifier,
-          $.variable_identifier
-        ),
-        '`'
-      )
     ),
 
     default_declaration: $ => seq(
@@ -246,7 +360,7 @@ module.exports = grammar({
         $.type_variable_identifier,
         repeat1($.simple_type_expression),
         ')'
-      ),
+      )
     ),
 
     func_type_expression: $ => seq(
@@ -288,7 +402,7 @@ module.exports = grammar({
       ')'
     ),
 
-    type_constructor: $ => prec.left(choice(
+    type_constructor: $ => prec(PREC.TYPE_CONSTRUCTOR, choice(
       '()',
       '[]',
       '(->)',
@@ -296,89 +410,97 @@ module.exports = grammar({
       $._qualified_type_identifier
     )),
 
-    int: $ => token(choice(
-      binaryLiteral,
-      octalLiteral,
-      hexaDecimalLiteral,
-      decimal
+    simple_type: $ => prec.right(seq(
+      $.type_identifier,
+      repeat($.type_variable_identifier)
     )),
 
-    float: $ => token(floatLiteral),
-
-    variable_identifier: $ => $._identifier,
-    qualified_variable_identifier: $ => seq(
-      $._qualified_module_identifier,
-      $._qualified_module_dot,
-      $.variable_identifier
-    ),
-    _qualified_variable_identifier: $ => choice(
-      $.qualified_variable_identifier,
-      $.variable_identifier
+    newtype_declaration: $ => seq(
+      'newtype',
+      $.simple_type,
+      '=',
+      $.newtype_constructor,
+      optional($.deriving)
     ),
 
-    variable_operator: $ => $._operator,
-    qualified_variable_operator: $ => seq(
-      $._qualified_module_identifier,
-      $._qualified_module_dot,
-      $.variable_operator
-    ),
-    _qualified_variable_operator: $ => choice(
-      $.qualified_variable_operator,
-      $.variable_operator
+    datatype_declaration: $ => choice(
+      seq(
+        'external',
+        'data',
+        $.simple_type
+      ),
+      seq(
+        'data',
+        $.simple_type,
+        optional(seq('=', $.constructor_declarations)),
+        optional($.deriving)
+      )
     ),
 
-    _variable: $ => choice(
-      $.variable_identifier,
+    constructor_declarations: $ => sep1(
+      '|',
+      choice(
+        $.data_constructor,
+        $.infix_data_constructor,
+        $.record_data_constructor
+      )
+    ),
+
+    data_constructor: $ => prec.left(seq(
+      $.constructor_identifier,
+      repeat($.simple_type_expression)
+    )),
+
+    infix_data_constructor: $ => prec.left(seq(
+      $.app_type_expression,
+      $._con_op,
+      $.app_type_expression
+    )),
+
+    record_data_constructor: $ => prec(PREC.RECORD_DATA_CONSTRUCTOR, seq(
+      $.constructor_identifier,
+      $.fields
+    )),
+
+    fields: $ => seq(
+      '{',
+      sep1(',', $.field),
+      '}'
+    ),
+
+    field: $ => prec.left(seq(
+      sep1(',', alias($._variable, $.label)),
+      '::',
+      $.type_expression
+    )),
+
+    newtype_constructor: $ => choice(
+      seq(
+        $.constructor_identifier,
+        $.simple_type_expression
+      ),
+      seq(
+        $.constructor_identifier,
+        '{',
+        $.newtype_field,
+        '}'
+      )
+    ),
+
+    newtype_field: $ => seq(
+      alias($._variable, $.label),
+      '::',
+      $.type_expression
+    ),
+
+    deriving: $ => seq(
+      'deriving',
       seq(
         '(',
-        $.variable_operator,
+        optional(sep1(',', $._qualified_type_identifier)),
         ')'
       )
-    ),
-    _qualified_variable: $ => choice(
-      $._qualified_variable_identifier,
-      seq(
-        '(',
-        $._qualified_variable_operator,
-        ')'
-      )
-    ),
-
-    type_identifier: $ => $._capitalized_identifier,
-    qualified_type_identifier: $ => seq(
-      $._qualified_module_identifier,
-      $._qualified_module_dot,
-      $.type_identifier
-    ),
-    _qualified_type_identifier: $ => choice(
-      $.qualified_type_identifier,
-      $.type_identifier
-    ),
-
-    constructor_identifier: $ => $._capitalized_identifier,
-
-    type_variable_identifier: $ => $._identifier,
-
-    terminal: $ => ';',
-
-    comment: $ => token(choice(
-      seq('--', /.*/),
-      seq(
-        '{-',
-        repeat(choice(/[^-]/, /-[^}]/)),
-        '-}'
-      )
-    )),
-
-    cpp_directive: $ => token(seq('#', /.*/)),
-
-    pragma: $ => token(prec(PREC.PRAGMA,
-      seq(
-        '{-#',
-        repeat(choice(/[^#]/, /#[^-]/, /#-[^}]/)),
-        '#-}'
-      )
-    )),
+    )
   }
 });
 
