@@ -27,6 +27,10 @@
           "named": true
         },
         {
+          "type": "terminal",
+          "named": true
+        },
+        {
           "type": "type_identifier",
           "named": true
         },
@@ -503,6 +507,10 @@
           "named": true
         },
         {
+          "type": "terminal",
+          "named": true
+        },
+        {
           "type": "type_identifier",
           "named": true
         }
@@ -612,6 +620,10 @@
         },
         {
           "type": "terminal",
+          "named": true
+        },
+        {
+          "type": "type_synonym_declaration",
           "named": true
         }
       ]
@@ -975,6 +987,25 @@
     "fields": {}
   },
   {
+    "type": "type_synonym_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_type",
+          "named": true
+        },
+        {
+          "type": "type_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_variable_identifier",
     "named": true,
     "fields": {}
@@ -1124,6 +1155,10 @@
   {
     "type": "terminal",
     "named": true
+  },
+  {
+    "type": "type",
+    "named": false
   },
   {
     "type": "where",

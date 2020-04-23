@@ -262,8 +262,10 @@ module.exports = grammar({
       $.default_declaration,
       $.datatype_declaration,
       $.newtype_declaration,
+      $.type_synonym_declaration,
       $.class_declaration,
-      $.instance_declaration
+      $.instance_declaration,
+      $._declaration
     ),
 
     import_declaration: $ => seq(
@@ -549,7 +551,27 @@ module.exports = grammar({
       $._declarations
     ),
 
-    _declarations: $ => 'DECL'
+    type_synonym_declaration: $ => seq(
+      'type',
+      $.simple_type,
+      '=',
+      $.type_expression
+    ),
+
+    _declarations: $ => choice(
+      seq(
+        '{',
+        repeat(seq($._declaration, optional($.terminal))),
+        '}'
+      ),
+      seq(
+        $._layout_open_brace,
+        repeat(seq($._declaration, choice($.terminal, $._layout_semicolon))),
+        $._layout_close_brace
+      )
+    ),
+
+    _declaration: $ => 'DECL'
   }
 });
 
