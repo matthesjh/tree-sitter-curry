@@ -49,7 +49,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$._qualified_module_identifier, $.qualified_module_identifier],
     [$.qualified_module_identifier],
-    [$.type_identifier, $.constructor_identifier]
+    [$.type_identifier, $.constructor_identifier],
+    [$.app_type_expression]
   ],
 
   word: $ => $._identifier,
@@ -571,7 +572,26 @@ module.exports = grammar({
       )
     ),
 
-    _declaration: $ => 'DECL'
+    _declaration: $ => choice(
+      $.signature,
+      $.external_declaration,
+      $.equation
+    ),
+
+    functions: $ => sep1(',', $._variable),
+
+    signature: $ => seq(
+      $.functions,
+      '::',
+      $.type_expression
+    ),
+
+    external_declaration: $ => seq(
+      $.functions,
+      'external'
+    ),
+
+    equation: $ => 'EQ'
   }
 });
 

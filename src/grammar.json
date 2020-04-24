@@ -2686,8 +2686,80 @@
       ]
     },
     "_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "signature"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "external_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "equation"
+        }
+      ]
+    },
+    "functions": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_variable"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_variable"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "signature": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "functions"
+        },
+        {
+          "type": "STRING",
+          "value": "::"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_expression"
+        }
+      ]
+    },
+    "external_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "functions"
+        },
+        {
+          "type": "STRING",
+          "value": "external"
+        }
+      ]
+    },
+    "equation": {
       "type": "STRING",
-      "value": "DECL"
+      "value": "EQ"
     }
   },
   "extras": [
@@ -2719,6 +2791,9 @@
     [
       "type_identifier",
       "constructor_identifier"
+    ],
+    [
+      "app_type_expression"
     ]
   ],
   "externals": [
