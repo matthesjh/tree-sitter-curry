@@ -415,6 +415,19 @@
       "type": "SYMBOL",
       "name": "_identifier"
     },
+    "_type_variable": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type_variable_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "_"
+        }
+      ]
+    },
     "constructor_identifier": {
       "type": "SYMBOL",
       "name": "_capitalized_identifier"
@@ -1704,12 +1717,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "_"
-        },
-        {
           "type": "SYMBOL",
-          "name": "type_variable_identifier"
+          "name": "_type_variable"
         },
         {
           "type": "SYMBOL",
@@ -1868,7 +1877,7 @@
             "type": "REPEAT",
             "content": {
               "type": "SYMBOL",
-              "name": "type_variable_identifier"
+              "name": "_type_variable"
             }
           }
         ]

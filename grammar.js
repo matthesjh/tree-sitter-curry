@@ -173,6 +173,10 @@ module.exports = grammar({
     ),
 
     type_variable_identifier: $ => $._identifier,
+    _type_variable: $ => choice(
+      $.type_variable_identifier,
+      '_'
+    ),
 
     constructor_identifier: $ => $._capitalized_identifier,
 
@@ -381,8 +385,7 @@ module.exports = grammar({
     app_type_expression: $ => repeat1($.simple_type_expression),
 
     simple_type_expression: $ => choice(
-      '_',
-      $.type_variable_identifier,
+      $._type_variable,
       $.type_constructor,
       $.tuple_type,
       $.list_type,
@@ -419,7 +422,7 @@ module.exports = grammar({
 
     simple_type: $ => prec.right(seq(
       $.type_identifier,
-      repeat($.type_variable_identifier)
+      repeat($._type_variable)
     )),
 
     newtype_declaration: $ => seq(
