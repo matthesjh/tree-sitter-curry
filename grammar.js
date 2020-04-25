@@ -1,18 +1,6 @@
-const digit = /[0-9]/;
-const binit = /[0-1]/;
-const octit = /[0-7]/;
-const hexit = /[0-9A-Fa-f]/;
+const decimal = /\d+/;
 
-const decimal = repeat1(digit);
-const binary = repeat1(binit);
-const octal = repeat1(octit);
-const hexaDecimal = repeat1(hexit);
-
-const binaryLiteral = seq('0', choice('b', 'B'), binary);
-const octalLiteral = seq('0', choice('o', 'O'), octal);
-const hexaDecimalLiteral = seq('0', choice('x', 'X'), hexaDecimal);
-
-const exponent = seq(choice('e', 'E'), optional(choice('+', '-')), decimal);
+const exponent = /(e|E)(\+|-)?\d+/;
 
 const floatLiteral = choice(
   seq(decimal, '.', decimal, optional(exponent)),
@@ -200,13 +188,31 @@ module.exports = grammar({
     ))),
 
     int: $ => token(choice(
-      binaryLiteral,
-      octalLiteral,
-      hexaDecimalLiteral,
+      /0(b|B)[0-1]+/,
+      /0(o|O)[0-7]+/,
+      /0(x|X)[0-9A-Fa-f]+/,
       decimal
     )),
 
     float: $ => token(floatLiteral),
+
+    char: $ => /'(\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv"'\\]|\d+|o[0-7]+|x[0-9A-Fa-f]+|\^[@-_])|[ -[\]-~])'/,
+
+    string: $ => token(seq(
+      '"',
+      repeat(choice(
+        /[^\\"\n]/,
+        /\\\s+\\/
+      )),
+      '"'
+    )),
+
+    _literal: $ => choice(
+      $.int,
+      $.float,
+      $.char,
+      $.string
+    ),
 
     exports: $ => seq(
       '(',

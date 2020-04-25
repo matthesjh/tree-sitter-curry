@@ -1178,6 +1178,10 @@
     "named": false
   },
   {
+    "type": "char",
+    "named": true
+  },
+  {
     "type": "class",
     "named": false
   },
@@ -1200,6 +1204,10 @@
   {
     "type": "external",
     "named": false
+  },
+  {
+    "type": "float",
+    "named": true
   },
   {
     "type": "forall",
@@ -1244,6 +1252,10 @@
   {
     "type": "qualified",
     "named": false
+  },
+  {
+    "type": "string",
+    "named": true
   },
   {
     "type": "terminal",
