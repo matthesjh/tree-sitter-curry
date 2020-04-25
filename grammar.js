@@ -60,23 +60,23 @@ module.exports = grammar({
     _identifier: $ => /[a-z](\w|')*/,
     _capitalized_identifier: $ => /[A-Z](\w|')*/,
     _operator: $ => token(choice(
-      /\.\.[~!@#$%^&*+\-=<>?./|\\\\:]+/,                       // Prevents matching `..`.
-      /\./,                                                    // Matches the composition operator `.`.
-      /:[~!@#$%^&*+\-=<>?./|\\][~!@#$%^&*+\-=<>?./|\\\\:]*/,   // Prevents matching `:`.
-      /::[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `::`.
-      /=[~!@#$%^&*+\-=<?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/, // Prevents matching `=`.
-      /=>[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `=>`.
-      /\\[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `\`.
-      /\|[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `|`.
-      /<-[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `<-`.
-      /<[~!@#$%^&*+=<>?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/,  // Prevents matching `<-`.
-      /</,                                                     // Matches the lower than operator `<`.
-      /->[~!@#$%^&*+\-=<>?./|\\\\:]+/,                         // Prevents matching `->`.
-      /-[~!@#$%^&*+\-=<?./|\\\\:][~!@#$%^&*+\-=<>?./|\\\\:]*/, // Prevents matching `->`.
-      /-/,                                                     // Matches the minus operator `-`.
-      /@[~!@#$%^&*+\-=<>?./|\\\\:]+/,                          // Prevents matching `@`.
-      /~[~!@#$%^&*+\-=<>?./|\\\\:]+/,                          // Prevents matching `~`.
-      /[!#$%^&*+>?/\\]+[~!@#$%^&*+\-=<>?./|\\\\:]*/            // Matches every other operator.
+      /\.\.[~!@#$%^&*+\-=<>?./|\\:]+/,                     // Prevents matching `..`.
+      /\./,                                                // Matches the composition operator `.`.
+      /:[~!@#$%^&*+\-=<>?./|\\][~!@#$%^&*+\-=<>?./|\\:]*/, // Prevents matching `:`.
+      /::[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `::`.
+      /=[~!@#$%^&*+\-=<?./|\\:][~!@#$%^&*+\-=<>?./|\\:]*/, // Prevents matching `=`.
+      /=>[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `=>`.
+      /\\[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `\`.
+      /\|[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `|`.
+      /<-[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `<-`.
+      /<[~!@#$%^&*+=<>?./|\\:][~!@#$%^&*+\-=<>?./|\\:]*/,  // Prevents matching `<-`.
+      /</,                                                 // Matches the lower than operator `<`.
+      /->[~!@#$%^&*+\-=<>?./|\\:]+/,                       // Prevents matching `->`.
+      /-[~!@#$%^&*+\-=<?./|\\:][~!@#$%^&*+\-=<>?./|\\:]*/, // Prevents matching `->`.
+      /-/,                                                 // Matches the minus operator `-`.
+      /@[~!@#$%^&*+\-=<>?./|\\:]+/,                        // Prevents matching `@`.
+      /~[~!@#$%^&*+\-=<>?./|\\:]+/,                        // Prevents matching `~`.
+      /[!#$%^&*+>?/\\]+[~!@#$%^&*+\-=<>?./|\\:]*/          // Matches every other operator.
     )),
 
     module_identifier: $ => $._capitalized_identifier,
