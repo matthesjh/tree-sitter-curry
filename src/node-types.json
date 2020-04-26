@@ -90,23 +90,11 @@
           "named": true
         },
         {
-          "type": "equation",
-          "named": true
-        },
-        {
           "type": "expression",
           "named": true
         },
         {
-          "type": "external_declaration",
-          "named": true
-        },
-        {
           "type": "field_binds",
-          "named": true
-        },
-        {
-          "type": "fixity_declaration",
           "named": true
         },
         {
@@ -142,14 +130,6 @@
           "named": true
         },
         {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "pattern_declaration",
-          "named": true
-        },
-        {
           "type": "qualified_data_constructor_identifier",
           "named": true
         },
@@ -162,15 +142,11 @@
           "named": true
         },
         {
-          "type": "signature",
+          "type": "statement",
           "named": true
         },
         {
           "type": "string",
-          "named": true
-        },
-        {
-          "type": "terminal",
           "named": true
         },
         {
@@ -227,29 +203,6 @@
     "type": "class_identifier",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "conditional_expressions",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "conditional_expressions",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "infix_expression",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "constraint",
@@ -433,43 +386,15 @@
       "required": false,
       "types": [
         {
-          "type": "equation",
-          "named": true
-        },
-        {
           "type": "expression",
           "named": true
         },
         {
-          "type": "external_declaration",
-          "named": true
-        },
-        {
-          "type": "fixity_declaration",
-          "named": true
-        },
-        {
-          "type": "infix_operator",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "pattern_declaration",
-          "named": true
-        },
-        {
-          "type": "signature",
+          "type": "statement",
           "named": true
         },
         {
           "type": "terminal",
-          "named": true
-        },
-        {
-          "type": "variable_identifier",
           "named": true
         }
       ]
@@ -850,6 +775,25 @@
         },
         {
           "type": "qualified_infix_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "guard",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "infix_expression",
           "named": true
         }
       ]
@@ -1725,10 +1669,6 @@
       "required": true,
       "types": [
         {
-          "type": "conditional_expressions",
-          "named": true
-        },
-        {
           "type": "equation",
           "named": true
         },
@@ -1742,6 +1682,10 @@
         },
         {
           "type": "fixity_declaration",
+          "named": true
+        },
+        {
+          "type": "guard",
           "named": true
         },
         {
@@ -1956,6 +1900,57 @@
         },
         {
           "type": "type_variable_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "equation",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "external_declaration",
+          "named": true
+        },
+        {
+          "type": "fixity_declaration",
+          "named": true
+        },
+        {
+          "type": "infix_operator",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "pattern_declaration",
+          "named": true
+        },
+        {
+          "type": "signature",
+          "named": true
+        },
+        {
+          "type": "terminal",
+          "named": true
+        },
+        {
+          "type": "variable_identifier",
           "named": true
         }
       ]

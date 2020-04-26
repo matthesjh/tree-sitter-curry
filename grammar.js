@@ -7,11 +7,6 @@ const floatLiteral = choice(
   seq(decimal, exponent)
 );
 
-const PREC = {
-  CLASS_DECLARATION: 1,
-  INSTANCE_DECLARATION: 1
-};
-
 module.exports = grammar({
   name: 'curry',
 
@@ -34,37 +29,30 @@ module.exports = grammar({
   word: $ => $._identifier,
 
   conflicts: $ => [
-    [$._qualified_module_identifier, $.qualified_module_identifier],
+    [$.qualified_module_identifier, $._qualified_module_identifier],
     [$.qualified_module_identifier],
+    [$.function_identifier, $.variable_identifier],
+    [$._qualified_function_identifier, $._function],
+    [$._qualified_function_identifier, $._fun_op],
     [$.type_identifier, $.data_constructor_identifier],
-    [$.app_type_expression],
-    [$._qualified_variable_identifier, $._variable],
+    [$.type_identifier, $.class_identifier],
+    [$._qualified_class_identifier, $.class_declaration],
+    [$._function, $._variable],
+    [$._qualified_function, $._qualified_data_constructor],
+    [$._qualified_infix_operator, $._function, $._variable],
     [$._qualified_infix_operator, $._variable],
-    [$.function_lhs, $.simple_pattern],
-    [$.constructor_pattern, $.simple_pattern],
     [$._qualified_infix_operator, $._fun_op],
     [$._qual_fun_op, $._qual_con_op],
+    [$._import_declaration],
+    [$.simple_type],
+    [$.data_constructor],
     [$.constructor_pattern],
-    [$.function_expression],
-    [$._qualified_function, $._qualified_data_constructor],
-    [$._qualified_variable_identifier, $._fun_op],
-    [$.infix_expression],
-    [$.basic_expression],
-    [$.function_lhs, $._local_declaration],
-    [$.simple_pattern, $.basic_expression],
-    [$.simple_pattern, $.general_data_constructor],
+    [$.constructor_pattern, $.simple_pattern],
     [$.constructor_pattern, $.basic_expression],
     [$.constructor_pattern, $.simple_pattern, $.basic_expression],
-    [$.expression],
-    [$.function_expression, $.basic_expression],
-    [$._literal, $.constructor_pattern],
-    [$.func_type_expression],
-    [$.variable_identifier, $.function_identifier],
-    [$._qualified_function_identifier, $._fun_op],
-    [$.type_identifier, $.class_identifier],
-    [$._qualified_function_identifier, $._function],
-    [$._qualified_infix_operator, $._variable, $._function],
-    [$._variable, $._function]
+    [$.constructor_pattern, $._literal],
+    [$.simple_pattern, $.basic_expression],
+    [$.simple_pattern, $.general_data_constructor]
   ],
 
   rules: {
@@ -293,11 +281,11 @@ module.exports = grammar({
 
     cpp_directive: $ => token(seq('#', /.*/)),
 
-    pragma: $ => token(prec(1, seq(
+    pragma: $ => token(seq(
       '{-#',
       repeat(choice(/[^#]/, /#[^-]/, /#-[^}]/)),
       '#-}'
-    ))),
+    )),
 
     int: $ => token(choice(
       /0(b|B)[0-1]+/,
@@ -314,7 +302,7 @@ module.exports = grammar({
       '"',
       repeat(choice(
         /[^\\"\n]/,
-        /\\\s+\\/
+        /\\(\^)?(.|\n)/
       )),
       '"'
     )),
@@ -385,7 +373,7 @@ module.exports = grammar({
       $._import_declaration
     ),
 
-    _import_declaration: $ => prec.right(seq(
+    _import_declaration: $ => seq(
       choice(
         $.import_alias,
         $._qualified_module_identifier
@@ -394,7 +382,7 @@ module.exports = grammar({
         $.import_spec,
         $.hiding_import_spec
       ))
-    )),
+    ),
 
     import_alias: $ => seq(
       $._qualified_module_identifier,
@@ -465,15 +453,15 @@ module.exports = grammar({
       )
     ),
 
-    func_type_expression: $ => seq(
+    func_type_expression: $ => prec.right(seq(
       $.app_type_expression,
       optional(seq(
         '->',
         $.type_expression
       ))
-    ),
+    )),
 
-    app_type_expression: $ => repeat1($.simple_type_expression),
+    app_type_expression: $ => prec.left(repeat1($.simple_type_expression)),
 
     simple_type_expression: $ => choice(
       $._type_variable,
@@ -501,10 +489,10 @@ module.exports = grammar({
       $._qualified_type_identifier
     ),
 
-    simple_type: $ => prec.right(seq(
+    simple_type: $ => seq(
       $.type_identifier,
       repeat($._type_variable)
-    )),
+    ),
 
     newtype_declaration: $ => seq(
       'newtype',
@@ -537,10 +525,10 @@ module.exports = grammar({
       )
     ),
 
-    data_constructor: $ => prec.left(seq(
+    data_constructor: $ => seq(
       $.data_constructor_identifier,
       repeat($.simple_type_expression)
-    )),
+    ),
 
     infix_data_constructor: $ => seq(
       $.app_type_expression,
@@ -580,21 +568,21 @@ module.exports = grammar({
       parens(optional(sep1(',', $._qualified_class_identifier)))
     ),
 
-    class_declaration: $ => prec(PREC.CLASS_DECLARATION, seq(
+    class_declaration: $ => seq(
       'class',
       optional($.simple_context),
       $.class_identifier,
       $.type_variable_identifier,
       $._where
-    )),
+    ),
 
-    instance_declaration: $ => prec(PREC.INSTANCE_DECLARATION, seq(
+    instance_declaration: $ => seq(
       'instance',
       optional($.simple_context),
       $._qualified_class_identifier,
       $.instance_type,
       $._where
-    )),
+    ),
 
     instance_type: $ => choice(
       $.type_constructor,
@@ -670,15 +658,16 @@ module.exports = grammar({
 
     rhs: $ => choice(
       seq('=', $.expression, $._local_where),
-      seq($.conditional_expressions, $._local_where)
+      seq($._guards, $._local_where)
     ),
 
-    conditional_expressions: $ => seq(
+    _guards: $ => repeat1($.guard),
+
+    guard: $ => seq(
       '|',
       $.infix_expression,
       '=',
-      $.expression,
-      optional($.conditional_expressions)
+      $.expression
     ),
 
     _local_where: $ => seq(
@@ -751,13 +740,13 @@ module.exports = grammar({
       $.pattern
     ),
 
-    expression: $ => seq(
+    expression: $ => prec.right(seq(
       $.infix_expression,
       optional(seq('::', $.type_expression))
-    ),
+    )),
 
     infix_expression: $ => choice(
-      seq($.no_operator_expression, optional(seq($._qual_op, $.infix_expression))),
+      prec.right(seq($.no_operator_expression, optional(seq($._qual_op, $.infix_expression)))),
       seq('-', $.infix_expression)
     ),
 
@@ -778,17 +767,17 @@ module.exports = grammar({
 
     _statements: $ => choice(
       braces(seq(
-        repeat(seq($._statement, optional($.terminal))),
+        repeat(seq($.statement, optional($.terminal))),
         $.expression
       )),
       seq(
         $._layout_open_brace,
-        repeat(seq($._statement, choice($.terminal, $._layout_semicolon))),
+        repeat(seq($.statement, choice($.terminal, $._layout_semicolon))),
         $._layout_close_brace
       )
     ),
 
-    _statement: $ => choice(
+    statement: $ => choice(
       seq($.pattern, '<-', $.expression),
       seq('let', $._local_declarations),
       $.expression
@@ -816,7 +805,7 @@ module.exports = grammar({
       optional($.gdalts)
     ),
 
-    function_expression: $ => repeat1($.basic_expression),
+    function_expression: $ => prec.left(repeat1($.basic_expression)),
 
     basic_expression: $ => choice(
       $._variable,
@@ -828,7 +817,7 @@ module.exports = grammar({
       $.list_expression,
       $.tuple_expression,
       brackets(seq($.expression, optional(seq(',', $.expression)), '..', optional($.expression))),
-      brackets(seq($.expression, '|', repeat1($._statement))),
+      brackets(seq($.expression, '|', repeat1($.statement))),
       parens(seq($.infix_expression, $._qual_op)),
       parens(seq($._qual_op, $.infix_expression)),
       seq($.basic_expression, $.field_binds)
