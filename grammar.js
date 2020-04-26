@@ -7,6 +7,10 @@ const floatLiteral = choice(
   seq(decimal, exponent)
 );
 
+const PREC = {
+  PRAGMA: 1
+};
+
 module.exports = grammar({
   name: 'curry',
 
@@ -281,11 +285,11 @@ module.exports = grammar({
 
     cpp_directive: $ => token(seq('#', /.*/)),
 
-    pragma: $ => token(seq(
+    pragma: $ => token(prec(PREC.PRAGMA, seq(
       '{-#',
       repeat(choice(/[^#]/, /#[^-]/, /#-[^}]/)),
       '#-}'
-    )),
+    ))),
 
     int: $ => token(choice(
       /0(b|B)[0-1]+/,
