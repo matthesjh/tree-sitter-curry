@@ -85,12 +85,15 @@ struct Scanner {
         }
       }
 
-      if (lexer->eof(lexer) || isolated_sequence(lexer, "module")) {
+      if (isolated_sequence(lexer, "module")) {
         return false;
       }
 
-      uint32_t column = lexer->get_column(lexer);
-      indent_length_stack.push_back(column);
+      if (!lexer->eof(lexer)) {
+        uint32_t column = lexer->get_column(lexer);
+        indent_length_stack.push_back(column);
+      }
+
       lexer->result_symbol = INITIALIZE_LAYOUT;
 
       return true;
