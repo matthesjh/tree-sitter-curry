@@ -2154,14 +2154,18 @@
           "value": "(->)"
         },
         {
-          "type": "PATTERN",
-          "value": "\\(,+\\)"
+          "type": "SYMBOL",
+          "name": "tuple_constructor"
         },
         {
           "type": "SYMBOL",
           "name": "_qualified_type_identifier"
         }
       ]
+    },
+    "tuple_constructor": {
+      "type": "PATTERN",
+      "value": "\\(,+\\)"
     },
     "simple_type": {
       "type": "SEQ",
@@ -4578,8 +4582,8 @@
           "value": "[]"
         },
         {
-          "type": "PATTERN",
-          "value": "\\(,+\\)"
+          "type": "SYMBOL",
+          "name": "tuple_constructor"
         },
         {
           "type": "SYMBOL",

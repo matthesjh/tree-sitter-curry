@@ -489,9 +489,11 @@ module.exports = grammar({
       '()',
       '[]',
       '(->)',
-      /\(,+\)/,
+      $.tuple_constructor,
       $._qualified_type_identifier
     ),
+
+    tuple_constructor: $ => /\(,+\)/,
 
     simple_type: $ => seq(
       $.type_identifier,
@@ -848,7 +850,7 @@ module.exports = grammar({
     general_data_constructor: $ => choice(
       '()',
       '[]',
-      /\(,+\)/,
+      $.tuple_constructor,
       $._qualified_data_constructor
     ),
   }

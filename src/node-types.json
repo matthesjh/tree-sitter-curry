@@ -776,6 +776,10 @@
         {
           "type": "qualified_infix_operator",
           "named": true
+        },
+        {
+          "type": "tuple_constructor",
+          "named": true
         }
       ]
     }
@@ -2014,6 +2018,10 @@
           "named": true
         },
         {
+          "type": "tuple_constructor",
+          "named": true
+        },
+        {
           "type": "type_identifier",
           "named": true
         }
@@ -2288,6 +2296,10 @@
   {
     "type": "then",
     "named": false
+  },
+  {
+    "type": "tuple_constructor",
+    "named": true
   },
   {
     "type": "type",
