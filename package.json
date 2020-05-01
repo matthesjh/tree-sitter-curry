@@ -37,7 +37,8 @@
       "scope": "source.curry",
       "file-types": [
         "curry"
-      ]
+      ],
+      "first-line-regex": "#!.*\\bruncurry$"
     }
   ]
 }
