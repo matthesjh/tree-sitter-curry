@@ -56,7 +56,8 @@ module.exports = grammar({
     [$.constructor_pattern, $.simple_pattern, $.basic_expression],
     [$.constructor_pattern, $._literal],
     [$.simple_pattern, $.basic_expression],
-    [$.simple_pattern, $.general_data_constructor]
+    [$.simple_pattern, $.general_data_constructor],
+    [$.no_operator_expression, $.function_expression]
   ],
 
   rules: {
@@ -763,7 +764,8 @@ module.exports = grammar({
       seq('case', $.expression, 'of', $._alts),
       seq('fcase', $.expression, 'of', $._alts),
       $.do,
-      $.function_expression
+      $.function_expression,
+      $.basic_expression
     ),
 
     do: $ => seq(
@@ -811,7 +813,10 @@ module.exports = grammar({
       optional($.gdalts)
     ),
 
-    function_expression: $ => prec.left(repeat1($.basic_expression)),
+    function_expression: $ => prec.left(seq(
+      choice($.function_expression, $.basic_expression),
+      choice($.function_expression, $.basic_expression)
+    )),
 
     basic_expression: $ => choice(
       $._variable,
