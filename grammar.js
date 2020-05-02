@@ -663,8 +663,8 @@ module.exports = grammar({
     ),
 
     rhs: $ => choice(
-      seq('=', $.expression, $._local_where),
-      seq($._guards, $._local_where)
+      seq('=', $.expression, optional($._local_where)),
+      seq($._guards, optional($._local_where))
     ),
 
     _guards: $ => repeat1($.guard),

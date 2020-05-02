@@ -3124,8 +3124,16 @@
               "name": "expression"
             },
             {
-              "type": "SYMBOL",
-              "name": "_local_where"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_local_where"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         },
@@ -3137,8 +3145,16 @@
               "name": "_guards"
             },
             {
-              "type": "SYMBOL",
-              "name": "_local_where"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_local_where"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
