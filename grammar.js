@@ -799,8 +799,8 @@ module.exports = grammar({
     ),
 
     alt: $ => choice(
-      seq($.pattern, '->', $.expression, $._local_where),
-      seq($.pattern, $.gdalts, $._local_where)
+      seq($.pattern, '->', $.expression, optional($._local_where)),
+      seq($.pattern, $.gdalts, optional($._local_where))
     ),
 
     gdalts: $ => seq(
