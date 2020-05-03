@@ -58,8 +58,7 @@
 
 (type_identifier) @type
 (type_variable_identifier) @type
-(simple_type "_") @type
-(simple_type_expression "_") @type
+(anonymous_type_variable) @type
 
 ; Classes
 ; -------
@@ -97,15 +96,13 @@
 ; ---------
 
 (variable_identifier) @variable
-(simple_pattern "_") @variable
-(basic_expression "_") @variable
+(wildcard) @variable
 
 ; Operators
 ; ---------
 
 ((infix_operator) @operator.builtin
-  (match? @operator.builtin "^(!!|\$|\$!|\$!!|\$#|\$##|&|&&|&>|\*|\+|\+\+|-|/|\.|/=|<|<=|=:<=|=:<<=|=:=|==|>|>=|>>|>>=|\?|\|\|)$"))
-":" @operator.builtin
+  (match? @operator.builtin "^(:|!!|\$|\$!|\$!!|\$#|\$##|&|&&|&>|\*|\+|\+\+|-|/|\.|/=|<|<=|=:<=|=:<<=|=:=|==|>|>=|>>|>>=|\?|\|\|)$"))
 "-" @operator.builtin
 
 (infix_operator) @operator
