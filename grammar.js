@@ -902,7 +902,7 @@ module.exports = grammar({
     list_comprehension: $ => brackets(seq(
       $.expression,
       '|',
-      repeat1($.statement)
+      sep1(',', $.statement)
     )),
 
     left_section: $ => parens(seq(
