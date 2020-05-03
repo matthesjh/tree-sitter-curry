@@ -1135,6 +1135,34 @@
     "named": true,
     "fields": {},
     "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_expression",
+          "named": true
+        },
+        {
+          "type": "infix_operator_expression",
+          "named": true
+        },
+        {
+          "type": "no_operator_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "infix_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "infix_operator_expression",
+    "named": true,
+    "fields": {},
+    "children": {
       "multiple": true,
       "required": true,
       "types": [
@@ -1172,11 +1200,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "infix_operator",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "instance_declaration",

@@ -59,6 +59,7 @@ module.exports = grammar({
     [$.negative_pattern, $._literal],
     [$.functional_pattern, $.basic_expression],
     [$.field_pattern, $.general_data_constructor],
+    [$.infix_expression, $.infix_operator_expression],
     [$.no_operator_expression, $.function_expression]
   ],
 
@@ -759,12 +760,16 @@ module.exports = grammar({
     )),
 
     infix_expression: $ => choice(
-      prec.right(seq(
-        $.no_operator_expression,
-        optional(seq($._qual_op, $.infix_expression))
-      )),
-      seq('-', $.infix_expression)
+      $.infix_operator_expression,
+      seq('-', $.infix_expression),
+      $.no_operator_expression,
     ),
+
+    infix_operator_expression: $ => prec.right(seq(
+      $.no_operator_expression,
+      $._qual_op,
+      $.infix_expression
+    )),
 
     no_operator_expression: $ => choice(
       $.lambda_expression,

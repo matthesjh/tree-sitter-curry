@@ -3693,38 +3693,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "no_operator_expression"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_qual_op"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "infix_expression"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "infix_operator_expression"
         },
         {
           "type": "SEQ",
@@ -3738,8 +3708,33 @@
               "name": "infix_expression"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "no_operator_expression"
         }
       ]
+    },
+    "infix_operator_expression": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "no_operator_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_qual_op"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "infix_expression"
+          }
+        ]
+      }
     },
     "no_operator_expression": {
       "type": "CHOICE",
@@ -4749,6 +4744,10 @@
     [
       "field_pattern",
       "general_data_constructor"
+    ],
+    [
+      "infix_expression",
+      "infix_operator_expression"
     ],
     [
       "no_operator_expression",
