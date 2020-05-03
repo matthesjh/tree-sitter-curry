@@ -15,9 +15,9 @@ module.exports = grammar({
   name: 'curry',
 
   extras: $ => [
+    $.pragma,
     $.cpp_directive,
     $.comment,
-    $.pragma,
     /\s|\\n/
   ],
 
@@ -47,16 +47,18 @@ module.exports = grammar({
     [$._qualified_infix_operator, $._variable],
     [$._qualified_infix_operator, $._fun_op],
     [$._qual_fun_op, $._qual_con_op],
-    [$._import_declaration],
+    [$.import_declaration],
     [$.simple_type],
     [$.data_constructor],
+    [$.simple_pattern, $.basic_expression],
     [$.constructor_pattern],
     [$.constructor_pattern, $.simple_pattern],
     [$.constructor_pattern, $.basic_expression],
     [$.constructor_pattern, $.simple_pattern, $.basic_expression],
     [$.constructor_pattern, $._literal],
-    [$.simple_pattern, $.basic_expression],
-    [$.simple_pattern, $.general_data_constructor],
+    [$.negative_pattern, $._literal],
+    [$.functional_pattern, $.basic_expression],
+    [$.field_pattern, $.general_data_constructor],
     [$.no_operator_expression, $.function_expression]
   ],
 
@@ -66,7 +68,8 @@ module.exports = grammar({
         'module',
         $._qualified_module_identifier,
         optional($.exports),
-        $._top_where
+        'where',
+        $._top_declarations
       ),
       seq(
         $._initialize_layout,
@@ -246,16 +249,6 @@ module.exports = grammar({
       backticks($._qualified_function_identifier)
     ),
 
-    _label_op: $ => choice(
-      $.infix_operator,
-      backticks($.label_identifier)
-    ),
-
-    _qual_label_op: $ => choice(
-      $._qualified_infix_operator,
-      backticks($._qualified_label_identifier)
-    ),
-
     _con_op: $ => choice(
       $.infix_operator,
       backticks($.data_constructor_identifier)
@@ -301,7 +294,7 @@ module.exports = grammar({
 
     float: $ => token(floatLiteral),
 
-    char: $ => token(/'(\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv"'\\]|\d+|o[0-7]+|x[0-9A-Fa-f]+|\^[@-_])|[ -[\]-~])'/),
+    char: $ => /'(\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv"'\\]|\d+|o[0-7]+|x[0-9A-Fa-f]+|\^[@-_])|[ -[\]-~])'/,
 
     string: $ => token(seq(
       '"',
@@ -346,11 +339,6 @@ module.exports = grammar({
 
     all_constructors: $ => '(..)',
 
-    _top_where: $ => seq(
-      'where',
-      $._top_declarations
-    ),
-
     _top_declarations: $ => choice(
       braces(repeat(seq($._top_declaration, optional($.terminal)))),
       seq(
@@ -375,14 +363,8 @@ module.exports = grammar({
     import_declaration: $ => seq(
       'import',
       optional('qualified'),
-      $._import_declaration
-    ),
-
-    _import_declaration: $ => seq(
-      choice(
-        $.import_alias,
-        $._qualified_module_identifier
-      ),
+      $._qualified_module_identifier,
+      optional($.import_alias),
       optional(choice(
         $.import_spec,
         $.hiding_import_spec
@@ -390,7 +372,6 @@ module.exports = grammar({
     ),
 
     import_alias: $ => seq(
-      $._qualified_module_identifier,
       'as',
       $._qualified_module_identifier
     ),
@@ -476,11 +457,7 @@ module.exports = grammar({
       $.paren_type
     ),
 
-    tuple_type: $ => parens(seq(
-      $.type_expression,
-      ',',
-      sep1(',', $.type_expression)
-    )),
+    tuple_type: $ => parens(sep2(',', $.type_expression)),
 
     list_type: $ => brackets($.type_expression),
 
@@ -545,10 +522,10 @@ module.exports = grammar({
 
     record_data_constructor: $ => seq(
       $.data_constructor_identifier,
-      $.fields
+      $._fields
     ),
 
-    fields: $ => braces(sep1(',', $.field)),
+    _fields: $ => braces(sep1(',', $.field)),
 
     field: $ => seq(
       sep1(',', $._label),
@@ -593,10 +570,17 @@ module.exports = grammar({
 
     instance_type: $ => choice(
       $.type_constructor,
-      parens(seq($.type_constructor, repeat($.type_variable_identifier))),
-      parens(seq($.type_variable_identifier, ',', sep1(',', $.type_variable_identifier))),
-      brackets($.type_variable_identifier),
-      parens(seq($.type_variable_identifier, '->', $.type_variable_identifier))
+      parens(seq(
+        $.type_constructor,
+        repeat($.type_variable_identifier)
+      )),
+      parens(sep2(',', $.type_variable_identifier)),
+      parens(seq(
+        $.type_variable_identifier,
+        '->',
+        $.type_variable_identifier
+      )),
+      brackets($.type_variable_identifier)
     ),
 
     simple_context: $ => seq(
@@ -654,7 +638,7 @@ module.exports = grammar({
 
     equation: $ => seq(
       $.function_lhs,
-      $.rhs
+      $.function_rhs
     ),
 
     function_lhs: $ => choice(
@@ -663,7 +647,7 @@ module.exports = grammar({
       seq(parens($.function_lhs), repeat1($.simple_pattern))
     ),
 
-    rhs: $ => choice(
+    function_rhs: $ => choice(
       seq('=', $.expression, optional($._local_where)),
       seq($._guards, optional($._local_where))
     ),
@@ -694,14 +678,16 @@ module.exports = grammar({
     _local_declaration: $ => choice(
       $._declaration,
       $.pattern_declaration,
-      seq(repeat1($._variable), 'free'),
-      $.fixity_declaration
+      $.fixity_declaration,
+      $.free_declaration
     ),
 
     pattern_declaration: $ => seq(
       $.pattern,
-      $.rhs
+      alias($.function_rhs, $.pattern_rhs)
     ),
+
+    free_declaration: $ => seq(repeat1($._variable), 'free'),
 
     pattern: $ => seq(
       $.constructor_pattern,
@@ -710,36 +696,56 @@ module.exports = grammar({
 
     constructor_pattern: $ => choice(
       seq($.general_data_constructor, repeat1($.simple_pattern)),
-      seq('-', choice($.int, $.float)),
+      $.negative_pattern,
       $.simple_pattern
     ),
+
+    negative_pattern: $ => seq('-', choice($.int, $.float)),
 
     simple_pattern: $ => choice(
       $._variable,
       '_',
       $.general_data_constructor,
       $._literal,
-      $.paren_pattern,
-      $.list_pattern,
       $.tuple_pattern,
-      seq($._variable, '@', $.simple_pattern),
-      seq('~', $.simple_pattern),
-      parens(seq($._qualified_function, repeat1($.simple_pattern))),
-      parens(seq($.constructor_pattern, $._qual_fun_op, $.pattern)),
-      seq($._qualified_data_constructor, $.pattern_fields)
+      $.list_pattern,
+      $.paren_pattern,
+      $.as_pattern,
+      $.irrefutable_pattern,
+      $.functional_pattern,
+      $.functional_infix_pattern,
+      $.field_pattern
     ),
 
-    tuple_pattern: $ => parens(seq(
-      $.pattern,
-      ',',
-      sep1(',', $.pattern)
-    )),
+    tuple_pattern: $ => parens(sep2(',', $.pattern)),
 
     list_pattern: $ => brackets(sep1(',', $.pattern)),
 
     paren_pattern: $ => parens($.pattern),
 
-    pattern_fields: $ => braces(sep1(',', $.pattern_field)),
+    as_pattern: $ => seq(
+      $._variable,
+      '@',
+      $.simple_pattern
+    ),
+
+    irrefutable_pattern: $ => seq('~', $.simple_pattern),
+
+    functional_pattern: $ => parens(seq(
+      $._qualified_function,
+      repeat1($.simple_pattern)
+    )),
+
+    functional_infix_pattern: $ => parens(seq(
+      $.constructor_pattern,
+      $._qual_fun_op,
+      $.pattern
+    )),
+
+    field_pattern: $ => seq(
+      $._qualified_data_constructor,
+      braces(sep1(',', $.pattern_field))
+    ),
 
     pattern_field: $ => seq(
       $._qualified_label,
@@ -753,22 +759,54 @@ module.exports = grammar({
     )),
 
     infix_expression: $ => choice(
-      prec.right(seq($.no_operator_expression, optional(seq($._qual_op, $.infix_expression)))),
+      prec.right(seq(
+        $.no_operator_expression,
+        optional(seq($._qual_op, $.infix_expression))
+      )),
       seq('-', $.infix_expression)
     ),
 
     no_operator_expression: $ => choice(
-      seq('\\', repeat1($.simple_pattern), '->', $.expression),
-      seq('let', $._local_declarations, 'in', $.expression),
-      seq('if', $.expression, 'then', $.expression, 'else', $.expression),
-      seq('case', $.expression, 'of', $._alts),
-      seq('fcase', $.expression, 'of', $._alts),
-      $.do,
+      $.lambda_expression,
+      $.let_expression,
+      $.if_then_else_expression,
+      $.case_expression,
+      $.do_expression,
       $.function_expression,
       $.basic_expression
     ),
 
-    do: $ => seq(
+    lambda_expression: $ => seq(
+      '\\',
+      repeat1($.simple_pattern),
+      '->',
+      $.expression
+    ),
+
+    let_expression: $ => seq(
+      'let',
+      $._local_declarations,
+      'in',
+      $.expression
+    ),
+
+    if_then_else_expression: $ => seq(
+      'if',
+      $.expression,
+      'then',
+      $.expression,
+      'else',
+      $.expression
+    ),
+
+    case_expression: $ => seq(
+      choice('fcase', 'case'),
+      $.expression,
+      'of',
+      $._alts
+    ),
+
+    do_expression: $ => seq(
       'do',
       $._statements
     ),
@@ -781,6 +819,7 @@ module.exports = grammar({
       seq(
         $._layout_open_brace,
         repeat(seq($.statement, choice($.terminal, $._layout_semicolon))),
+        $.expression,
         $._layout_close_brace
       )
     ),
@@ -802,15 +841,16 @@ module.exports = grammar({
 
     alt: $ => choice(
       seq($.pattern, '->', $.expression, optional($._local_where)),
-      seq($.pattern, $.gdalts, optional($._local_where))
+      seq($.pattern, $._alt_guards, optional($._local_where))
     ),
 
-    gdalts: $ => seq(
+    _alt_guards: $ => repeat1($.alt_guard),
+
+    alt_guard: $ => seq(
       '|',
       $.infix_expression,
       '->',
-      $.expression,
-      optional($.gdalts)
+      $.expression
     ),
 
     function_expression: $ => prec.left(seq(
@@ -824,27 +864,51 @@ module.exports = grammar({
       $._qualified_function,
       $.general_data_constructor,
       $._literal,
-      $.paren_expression,
-      $.list_expression,
       $.tuple_expression,
-      brackets(seq($.expression, optional(seq(',', $.expression)), '..', optional($.expression))),
-      brackets(seq($.expression, '|', repeat1($.statement))),
-      parens(seq($.infix_expression, $._qual_op)),
-      parens(seq($._qual_op, $.infix_expression)),
-      seq($.basic_expression, $.field_binds)
+      $.list_expression,
+      $.paren_expression,
+      $.arithmetic_sequence,
+      $.list_comprehension,
+      $.left_section,
+      $.right_section,
+      $.record_update
     ),
 
-    tuple_expression: $ => parens(seq(
-      $.expression,
-      ',',
-      sep1(',', $.expression)
-    )),
+    tuple_expression: $ => parens(sep2(',', $.expression)),
 
     list_expression: $ => brackets(sep1(',', $.expression)),
 
     paren_expression: $ => parens($.expression),
 
-    field_binds: $ => braces(optional(sep1(',', $.field_bind))),
+    arithmetic_sequence: $ => brackets(seq(
+      $.expression,
+      optional(seq(',', $.expression)),
+      '..',
+      optional($.expression)
+    )),
+
+    list_comprehension: $ => brackets(seq(
+      $.expression,
+      '|',
+      repeat1($.statement)
+    )),
+
+    left_section: $ => parens(seq(
+      $.infix_expression,
+      $._qual_op
+    )),
+
+    right_section: $ => parens(seq(
+      $._qual_op,
+      $.infix_expression
+    )),
+
+    record_update: $ => seq(
+      $.basic_expression,
+      $._field_binds
+    ),
+
+    _field_binds: $ => braces(optional(sep1(',', $.field_bind))),
 
     field_bind: $ => seq(
       $._qualified_label,
@@ -863,6 +927,10 @@ module.exports = grammar({
 
 function sep1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
+}
+
+function sep2(sep, rule) {
+  return seq(rule, sep, sep1(sep, rule));
 }
 
 function parens(rule) {
