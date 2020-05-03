@@ -128,7 +128,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "arithmetic_sequence",
@@ -200,6 +200,10 @@
         },
         {
           "type": "variable_identifier",
+          "named": true
+        },
+        {
+          "type": "wildcard",
           "named": true
         }
       ]
@@ -1139,15 +1143,15 @@
       "required": true,
       "types": [
         {
-          "type": "infix_expression",
-          "named": true
-        },
-        {
           "type": "infix_operator_expression",
           "named": true
         },
         {
           "type": "no_operator_expression",
+          "named": true
+        },
+        {
+          "type": "prefix_negation_expression",
           "named": true
         }
       ]
@@ -1848,6 +1852,21 @@
     }
   },
   {
+    "type": "prefix_negation_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "infix_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "qualified_class_identifier",
     "named": true,
     "fields": {},
@@ -2163,7 +2182,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "as_pattern",
@@ -2224,6 +2243,10 @@
         {
           "type": "variable_identifier",
           "named": true
+        },
+        {
+          "type": "wildcard",
+          "named": true
         }
       ]
     }
@@ -2236,6 +2259,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "anonymous_type_variable",
+          "named": true
+        },
         {
           "type": "type_identifier",
           "named": true
@@ -2253,8 +2280,12 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "anonymous_type_variable",
+          "named": true
+        },
         {
           "type": "list_type",
           "named": true
@@ -2487,10 +2518,6 @@
     "named": false
   },
   {
-    "type": ":",
-    "named": false
-  },
-  {
     "type": "::",
     "named": false
   },
@@ -2527,15 +2554,15 @@
     "named": false
   },
   {
-    "type": "_",
-    "named": false
-  },
-  {
     "type": "`",
     "named": false
   },
   {
     "type": "all_constructors",
+    "named": true
+  },
+  {
+    "type": "anonymous_type_variable",
     "named": true
   },
   {
@@ -2673,6 +2700,10 @@
   {
     "type": "where",
     "named": false
+  },
+  {
+    "type": "wildcard",
+    "named": true
   },
   {
     "type": "{",

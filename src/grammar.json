@@ -613,8 +613,22 @@
               "value": "("
             },
             {
-              "type": "SYMBOL",
-              "name": "_qualified_infix_operator"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  "named": true,
+                  "value": "infix_operator"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_qualified_infix_operator"
+                }
+              ]
             },
             {
               "type": "STRING",
@@ -663,8 +677,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          },
+          "named": true,
+          "value": "infix_operator"
         },
         {
           "type": "SYMBOL",
@@ -780,8 +799,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          },
+          "named": true,
+          "value": "infix_operator"
         },
         {
           "type": "SYMBOL",
@@ -818,14 +842,23 @@
           "name": "type_variable_identifier"
         },
         {
-          "type": "STRING",
-          "value": "_"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "wildcard"
+          },
+          "named": true,
+          "value": "anonymous_type_variable"
         }
       ]
     },
     "terminal": {
       "type": "STRING",
       "value": ";"
+    },
+    "wildcard": {
+      "type": "STRING",
+      "value": "_"
     },
     "comment": {
       "type": "TOKEN",
@@ -3351,8 +3384,8 @@
           "name": "_variable"
         },
         {
-          "type": "STRING",
-          "value": "_"
+          "type": "SYMBOL",
+          "name": "wildcard"
         },
         {
           "type": "SYMBOL",
@@ -3697,21 +3730,25 @@
           "name": "infix_operator_expression"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "-"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "infix_expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "prefix_negation_expression"
         },
         {
           "type": "SYMBOL",
           "name": "no_operator_expression"
+        }
+      ]
+    },
+    "prefix_negation_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "infix_expression"
         }
       ]
     },
@@ -4228,8 +4265,8 @@
           "name": "_variable"
         },
         {
-          "type": "STRING",
-          "value": "_"
+          "type": "SYMBOL",
+          "name": "wildcard"
         },
         {
           "type": "SYMBOL",

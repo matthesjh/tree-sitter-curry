@@ -220,7 +220,10 @@ module.exports = grammar({
 
     _qualified_data_constructor: $ => choice(
       $._qualified_data_constructor_identifier,
-      parens($._qualified_infix_operator)
+      parens(choice(
+        alias(':', $.infix_operator),
+        $._qualified_infix_operator
+      ))
     ),
 
     _op: $ => choice(
@@ -232,7 +235,7 @@ module.exports = grammar({
     ),
 
     _qual_op: $ => choice(
-      ':',
+      alias(':', $.infix_operator),
       $._qualified_infix_operator,
       backticks(choice(
         $._qualified_function_identifier,
@@ -256,7 +259,7 @@ module.exports = grammar({
     ),
 
     _qual_con_op: $ => choice(
-      ':',
+      alias(':', $.infix_operator),
       $._qualified_infix_operator,
       backticks($._qualified_data_constructor_identifier)
     ),
@@ -264,10 +267,12 @@ module.exports = grammar({
     type_variable_identifier: $ => $._identifier,
     _type_variable: $ => choice(
       $.type_variable_identifier,
-      '_'
+      alias($.wildcard, $.anonymous_type_variable)
     ),
 
     terminal: $ => ';',
+
+    wildcard: $ => '_',
 
     comment: $ => token(choice(
       seq('--', /.*/),
@@ -705,7 +710,7 @@ module.exports = grammar({
 
     simple_pattern: $ => choice(
       $._variable,
-      '_',
+      $.wildcard,
       $.general_data_constructor,
       $._literal,
       $.tuple_pattern,
@@ -761,9 +766,11 @@ module.exports = grammar({
 
     infix_expression: $ => choice(
       $.infix_operator_expression,
-      seq('-', $.infix_expression),
-      $.no_operator_expression,
+      $.prefix_negation_expression,
+      $.no_operator_expression
     ),
+
+    prefix_negation_expression: $ => seq('-', $.infix_expression),
 
     infix_operator_expression: $ => prec.right(seq(
       $.no_operator_expression,
@@ -865,7 +872,7 @@ module.exports = grammar({
 
     basic_expression: $ => choice(
       $._variable,
-      '_',
+      $.wildcard,
       $._qualified_function,
       $.general_data_constructor,
       $._literal,
