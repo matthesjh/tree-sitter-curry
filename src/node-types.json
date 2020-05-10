@@ -569,11 +569,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "functions",
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "infix_operator",
           "named": true
         }
       ]
@@ -922,25 +926,6 @@
         },
         {
           "type": "simple_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "functions",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_identifier",
-          "named": true
-        },
-        {
-          "type": "infix_operator",
           "named": true
         }
       ]
@@ -2185,7 +2170,11 @@
       "required": true,
       "types": [
         {
-          "type": "functions",
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "infix_operator",
           "named": true
         },
         {

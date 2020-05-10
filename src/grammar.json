@@ -2937,7 +2937,7 @@
         }
       ]
     },
-    "functions": {
+    "_functions": {
       "type": "SEQ",
       "members": [
         {
@@ -2967,7 +2967,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "functions"
+          "name": "_functions"
         },
         {
           "type": "SYMBOL",
@@ -2980,7 +2980,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "functions"
+          "name": "_functions"
         },
         {
           "type": "STRING",

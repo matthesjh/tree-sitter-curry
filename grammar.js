@@ -637,15 +637,15 @@ module.exports = grammar({
       $.equation
     ),
 
-    functions: $ => sep1(',', $._function),
+    _functions: $ => sep1(',', $._function),
 
     signature: $ => seq(
-      $.functions,
+      $._functions,
       $.type_annotation
     ),
 
     external_declaration: $ => seq(
-      $.functions,
+      $._functions,
       'external'
     ),
 
