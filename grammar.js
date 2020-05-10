@@ -831,14 +831,10 @@ module.exports = grammar({
     ),
 
     _statements: $ => choice(
-      braces(seq(
-        repeat(seq($.statement, optional($.terminal))),
-        $.expression
-      )),
+      braces(repeat1(seq($.statement, optional($.terminal)))),
       seq(
         $._layout_open_brace,
-        repeat(seq($.statement, choice($.terminal, $._layout_semicolon))),
-        $.expression,
+        repeat1(seq($.statement, choice($.terminal, $._layout_semicolon))),
         $._layout_close_brace
       )
     ),
