@@ -481,6 +481,11 @@ module.exports = grammar({
       repeat($._type_variable)
     ),
 
+    type_annotation: $ => seq(
+      '::',
+      $.type_expression
+    ),
+
     newtype_declaration: $ => seq(
       'newtype',
       $.simple_type,
@@ -532,8 +537,7 @@ module.exports = grammar({
 
     field: $ => seq(
       sep1(',', $._label),
-      '::',
-      $.type_expression
+      $.type_annotation
     ),
 
     newtype_constructor: $ => seq(
@@ -546,8 +550,7 @@ module.exports = grammar({
 
     newtype_field: $ => seq(
       $._label,
-      '::',
-      $.type_expression
+      $.type_annotation
     ),
 
     deriving: $ => seq(
@@ -630,8 +633,7 @@ module.exports = grammar({
 
     signature: $ => seq(
       $.functions,
-      '::',
-      $.type_expression
+      $.type_annotation
     ),
 
     external_declaration: $ => seq(
@@ -758,7 +760,7 @@ module.exports = grammar({
 
     expression: $ => prec.right(seq(
       $.infix_expression,
-      optional(seq('::', $.type_expression))
+      optional($.type_annotation)
     )),
 
     infix_expression: $ => choice(
