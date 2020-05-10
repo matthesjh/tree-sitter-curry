@@ -318,10 +318,7 @@ module.exports = grammar({
       $.string
     ),
 
-    exports: $ => parens(seq(
-      optional(sep1(',', $.export)),
-      optional(',')
-    )),
+    exports: $ => parens(optional(sep1(',', $.export))),
 
     export: $ => choice(
       $.module_export,
