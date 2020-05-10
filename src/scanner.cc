@@ -99,18 +99,16 @@ struct Scanner {
       return true;
     }
 
-    if (valid_symbols[QUALIFIED_MODULE_DOT]) {
-      if (lexer->lookahead == '.') {
-        skip(lexer);
+    if (valid_symbols[QUALIFIED_MODULE_DOT] && lexer->lookahead == '.') {
+      skip(lexer);
 
-        if (iswspace(lexer->lookahead)) {
-          return false;
-        }
-
-        lexer->result_symbol = QUALIFIED_MODULE_DOT;
-
-        return true;
+      if (iswspace(lexer->lookahead)) {
+        return false;
       }
+
+      lexer->result_symbol = QUALIFIED_MODULE_DOT;
+
+      return true;
     }
 
     if (valid_symbols[LAYOUT_CLOSE_BRACE] && queued_close_brace_count > 0) {
