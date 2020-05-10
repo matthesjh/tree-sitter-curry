@@ -576,18 +576,26 @@ module.exports = grammar({
 
     instance_type: $ => choice(
       $.type_constructor,
-      parens(seq(
-        $.type_constructor,
-        repeat($.type_variable_identifier)
-      )),
-      parens(sep2(',', $.type_variable_identifier)),
-      parens(seq(
-        $.type_variable_identifier,
-        '->',
-        $.type_variable_identifier
-      )),
-      brackets($.type_variable_identifier)
+      $.paren_instance_type,
+      $.tuple_instance_type,
+      $.list_instance_type,
+      $.func_instance_type
     ),
+
+    tuple_instance_type: $ => parens(sep2(',', $.type_variable_identifier)),
+
+    list_instance_type: $ => brackets($.type_variable_identifier),
+
+    paren_instance_type: $ => parens(seq(
+      $.type_constructor,
+      repeat($.type_variable_identifier)
+    )),
+
+    func_instance_type: $ => parens(seq(
+      $.type_variable_identifier,
+      '->',
+      $.type_variable_identifier
+    )),
 
     simple_context: $ => seq(
       choice(
