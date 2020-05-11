@@ -57,8 +57,8 @@
 (type_constructor (tuple_constructor)) @type.builtin
 
 (type_identifier) @type
-(type_variable_identifier) @type
-(anonymous_type_variable) @type
+(type_variable_identifier) @type.variable
+(anonymous_type_variable) @type.variable
 
 ; Classes
 ; -------
