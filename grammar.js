@@ -1,12 +1,3 @@
-const decimal = /\d+/;
-
-const exponent = /(e|E)(\+|-)?\d+/;
-
-const floatLiteral = choice(
-  seq(decimal, '.', decimal, optional(exponent)),
-  seq(decimal, exponent)
-);
-
 const PREC = {
   PRAGMA: 1
 };
@@ -295,10 +286,13 @@ module.exports = grammar({
       /0(b|B)[0-1]+/,
       /0(o|O)[0-7]+/,
       /0(x|X)[0-9A-Fa-f]+/,
-      decimal
+      /\d+/
     )),
 
-    float: $ => token(floatLiteral),
+    float: $ => token(choice(
+      /\d+\.\d+((e|E)(\+|-)?\d+)?/,
+      /\d+(e|E)(\+|-)?\d+/
+    )),
 
     char: $ => /'(\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv"'\\]|\d+|o[0-7]+|x[0-9A-Fa-f]+|\^[@-_])|[ -[\]-~])'/,
 
