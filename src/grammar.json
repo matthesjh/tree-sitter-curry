@@ -4639,7 +4639,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\s|\\\\n"
+      "value": "\\s"
     }
   ],
   "conflicts": [

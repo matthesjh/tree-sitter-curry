@@ -9,7 +9,7 @@ module.exports = grammar({
     $.pragma,
     $.cpp_directive,
     $.comment,
-    /\s|\\n/
+    /\s/
   ],
 
   externals: $ => [
