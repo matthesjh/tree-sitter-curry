@@ -58,7 +58,6 @@
     "yoda": ["error", "never"],
     "no-label-var": "error",
     "no-shadow": "error",
-    "no-undefined": "error",
     "no-unused-vars": ["error", {"argsIgnorePattern": "^\\$$"}],
     "array-bracket-spacing": ["error", "never"],
     "block-spacing": ["error", "always"],
