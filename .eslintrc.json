@@ -1,9 +1,12 @@
 {
+  "extends": "eslint:recommended",
   "env": {
     "es6": true,
     "node": true
   },
-  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "globals": {
     "alias": "readonly",
     "choice": "readonly",
@@ -16,21 +19,23 @@
     "seq": "readonly",
     "token": "readonly"
   },
-  "parserOptions": {
-    "sourceType": "module"
-  },
+  "reportUnusedDisableDirectives": true,
   "rules": {
-    "no-unused-vars": ["error", {"argsIgnorePattern": "^\\$$"}],
+    "no-extra-parens": ["error", "all"],
+    "no-loss-of-precision": "error",
     "no-template-curly-in-string": "error",
     "accessor-pairs": ["error", {"getWithoutSet": false, "setWithoutGet": true}],
     "array-callback-return": ["error", {"allowImplicit": false}],
     "curly": ["error", "all"],
     "default-case": "error",
     "default-case-last": "error",
+    "default-param-last": "error",
     "dot-notation": "error",
+    "eqeqeq": ["error", "always", {"null": "always"}],
     "grouped-accessor-pairs": ["error", "getBeforeSet"],
     "no-constructor-return": "error",
     "no-empty-function": "error",
+    "no-eq-null": "error",
     "no-eval": ["error", {"allowIndirect": false}],
     "no-extra-bind": "error",
     "no-extra-label": "error",
@@ -40,6 +45,7 @@
     "no-new": "error",
     "no-new-func": "error",
     "no-new-wrappers": "error",
+    "no-octal-escape": "error",
     "no-return-assign": "error",
     "no-return-await": "error",
     "no-self-compare": "error",
@@ -52,6 +58,8 @@
     "yoda": ["error", "never"],
     "no-label-var": "error",
     "no-shadow": "error",
+    "no-undefined": "error",
+    "no-unused-vars": ["error", {"argsIgnorePattern": "^\\$$"}],
     "array-bracket-spacing": ["error", "never"],
     "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs"],
@@ -73,6 +81,7 @@
     "no-new-object": "error",
     "no-tabs": "error",
     "no-trailing-spaces": "error",
+    "no-unneeded-ternary": "error",
     "no-whitespace-before-property": "error",
     "object-curly-spacing": ["error", "never"],
     "padding-line-between-statements": ["error", {"blankLine": "always", "prev": "*", "next": "return"}],
