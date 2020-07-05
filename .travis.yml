@@ -1,0 +1,31 @@
+language: node_js
+
+os:
+  - linux
+  - osx
+
+dist: bionic
+
+osx_image: xcode11.5
+
+node_js:
+  - 12
+  - 14
+
+script:
+  - npm ci
+  - npm run build --if-present
+  - npm run lint --if-present
+  - npm test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+
+branches:
+  only:
+    - master
+
+git:
+  depth: 10
