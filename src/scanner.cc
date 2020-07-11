@@ -414,11 +414,13 @@ void *tree_sitter_curry_external_scanner_create() {
 
 bool tree_sitter_curry_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = static_cast<Scanner *>(payload);
+
   return scanner->scan(lexer, valid_symbols);
 }
 
 unsigned tree_sitter_curry_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = static_cast<Scanner *>(payload);
+
   return scanner->serialize(buffer);
 }
 
@@ -429,6 +431,7 @@ void tree_sitter_curry_external_scanner_deserialize(void *payload, const char *b
 
 void tree_sitter_curry_external_scanner_destroy(void *payload) {
   Scanner *scanner = static_cast<Scanner *>(payload);
+
   delete scanner;
 }
 
