@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/matthesjh/tree-sitter-curry.svg?branch=master)](https://travis-ci.com/matthesjh/tree-sitter-curry)
 ![Build package](https://github.com/matthesjh/tree-sitter-curry/workflows/Build%20package/badge.svg)
 
-Curry grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter/).
+Curry grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter/). It is based on the [tree-sitter grammar](https://github.com/tree-sitter/tree-sitter-haskell/) for the purely functional programming language Haskell.
 
 ## References
 
