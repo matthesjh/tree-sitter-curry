@@ -126,7 +126,9 @@ struct Scanner {
       }
 
       if (lexer->eof(lexer)) {
-        return false;
+        lexer->result_symbol = LAYOUT_OPEN_BRACE;
+
+        return true;
       }
 
       uint32_t column = lexer->get_column(lexer);
