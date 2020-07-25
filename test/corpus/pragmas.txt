@@ -1,0 +1,185 @@
+==============================
+Language Pragma Without Module
+==============================
+
+{-# LANGUAGE RankNTypes #-}
+
+---
+
+(module
+  (pragma))
+
+=============================
+Language Pragma With Module 1
+=============================
+
+{-# LANGUAGE RankNTypes #-}
+
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
+
+=============================
+Language Pragma With Module 2
+=============================
+
+{-# LANGUAGE RankNTypes #-}
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
+
+=============================
+Language Pragma With Module 3
+=============================
+
+{-# LANGUAGE RankNTypes #-} module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
+
+===============================
+Language Pragmas Without Module
+===============================
+
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ExplicitForAll, FunctionalPatterns #-}
+
+---
+
+(module
+  (pragma)
+  (pragma))
+
+==============================
+Language Pragmas With Module 1
+==============================
+
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ExplicitForAll, FunctionalPatterns #-}
+
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (pragma)
+  (module_identifier))
+
+==============================
+Language Pragmas With Module 2
+==============================
+
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ExplicitForAll, FunctionalPatterns #-}
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (pragma)
+  (module_identifier))
+
+==============================
+Language Pragmas With Module 3
+==============================
+
+{-# LANGUAGE RankNTypes #-} {-# LANGUAGE ExplicitForAll, FunctionalPatterns #-} module Prelude where
+
+---
+
+(module
+  (pragma)
+  (pragma)
+  (module_identifier))
+
+=======================================
+Language Pragmas Aligned Without Module
+=======================================
+
+{-# LANGUAGE RankNTypes     #-}
+{-# LANGUAGE ExplicitForAll #-}
+
+---
+
+(module
+  (pragma)
+  (pragma))
+
+====================================
+Language Pragmas Aligned With Module
+====================================
+
+{-# LANGUAGE RankNTypes     #-}
+{-# LANGUAGE ExplicitForAll #-}
+
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (pragma)
+  (module_identifier))
+
+============================
+Option Pragma Without Module
+============================
+
+{-# OPTIONS_FRONTEND -Wno-incomplete-patterns #-}
+
+---
+
+(module
+  (pragma))
+
+===========================
+Option Pragma With Module 1
+===========================
+
+{-# OPTIONS_FRONTEND -Wno-incomplete-patterns #-}
+
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
+
+===========================
+Option Pragma With Module 2
+===========================
+
+{-# OPTIONS_FRONTEND -Wno-incomplete-patterns #-}
+module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
+
+===========================
+Option Pragma With Module 3
+===========================
+
+{-# OPTIONS_FRONTEND -Wno-incomplete-patterns #-} module Prelude where
+
+---
+
+(module
+  (pragma)
+  (module_identifier))
