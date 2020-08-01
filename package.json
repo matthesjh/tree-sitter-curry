@@ -23,7 +23,7 @@
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "tree-sitter-cli": "^0.16.9"
   },
   "scripts": {
