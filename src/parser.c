@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 11
+#define LANGUAGE_VERSION 12
 #define STATE_COUNT 1734
 #define LARGE_STATE_COUNT 51
 #define SYMBOL_COUNT 249
@@ -1791,6 +1791,13 @@ static TSSymbol ts_alias_sequences[3][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [2] = {
     [1] = alias_sym_pattern_rhs,
   },
+};
+
+static uint16_t ts_non_terminal_alias_map[] = {
+  sym_function_rhs, 2,
+    sym_function_rhs,
+    alias_sym_pattern_rhs,
+  0,
 };
 
 static inline bool sym__operator_character_set_1(int32_t lookahead) {
@@ -65038,6 +65045,8 @@ extern const TSLanguage *tree_sitter_curry(void) {
     .alias_count = ALIAS_COUNT,
     .token_count = TOKEN_COUNT,
     .large_state_count = LARGE_STATE_COUNT,
+    .alias_map = ts_non_terminal_alias_map,
+    .state_count = STATE_COUNT,
     .symbol_metadata = ts_symbol_metadata,
     .parse_table = (const unsigned short *)ts_parse_table,
     .small_parse_table = (const uint16_t *)ts_small_parse_table,
