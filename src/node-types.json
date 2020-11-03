@@ -2658,6 +2658,14 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "cpp_directive",
+    "named": true
+  },
+  {
     "type": "data",
     "named": false
   },
@@ -2748,6 +2756,10 @@
   {
     "type": "of",
     "named": false
+  },
+  {
+    "type": "pragma",
+    "named": true
   },
   {
     "type": "qualified",
