@@ -1800,49 +1800,50 @@ static uint16_t ts_non_terminal_alias_map[] = {
   0,
 };
 
-static inline bool sym__operator_character_set_1(int32_t lookahead) {
-  return
-    lookahead == '!' ||
-    ('#' <= lookahead && lookahead <= '&') ||
-    lookahead == '*' ||
-    lookahead == '+' ||
-    ('-' <= lookahead && lookahead <= '/') ||
-    lookahead == ':' ||
-    ('<' <= lookahead && lookahead <= '@') ||
-    lookahead == '\\' ||
-    lookahead == '^' ||
-    lookahead == '|' ||
-    lookahead == '~';
+static inline bool sym__operator_character_set_1(int32_t c) {
+  return (c < '<'
+    ? (c < '*'
+      ? (c < '#'
+        ? c == '!'
+        : c <= '&')
+      : (c <= '+' || (c < ':'
+        ? (c >= '-' && c <= '/')
+        : c <= ':')))
+    : (c <= '@' || (c < '|'
+      ? (c < '^'
+        ? c == '\\'
+        : c <= '^')
+      : (c <= '|' || c == '~'))));
 }
 
-static inline bool sym__operator_character_set_2(int32_t lookahead) {
-  return
-    lookahead == '!' ||
-    ('#' <= lookahead && lookahead <= '&') ||
-    lookahead == '*' ||
-    lookahead == '+' ||
-    lookahead == '.' ||
-    lookahead == '/' ||
-    lookahead == ':' ||
-    ('<' <= lookahead && lookahead <= '@') ||
-    lookahead == '\\' ||
-    lookahead == '^' ||
-    lookahead == '|' ||
-    lookahead == '~';
+static inline bool sym__operator_character_set_2(int32_t c) {
+  return (c < '<'
+    ? (c < '*'
+      ? (c < '#'
+        ? c == '!'
+        : c <= '&')
+      : (c <= '+' || (c < ':'
+        ? (c >= '.' && c <= '/')
+        : c <= ':')))
+    : (c <= '@' || (c < '|'
+      ? (c < '^'
+        ? c == '\\'
+        : c <= '^')
+      : (c <= '|' || c == '~'))));
 }
 
-static inline bool sym__operator_character_set_3(int32_t lookahead) {
-  return
-    lookahead == '!' ||
-    ('#' <= lookahead && lookahead <= '&') ||
-    lookahead == '*' ||
-    lookahead == '+' ||
-    ('-' <= lookahead && lookahead <= '/') ||
-    ('<' <= lookahead && lookahead <= '@') ||
-    lookahead == '\\' ||
-    lookahead == '^' ||
-    lookahead == '|' ||
-    lookahead == '~';
+static inline bool sym__operator_character_set_3(int32_t c) {
+  return (c < '<'
+    ? (c < '*'
+      ? (c < '#'
+        ? c == '!'
+        : c <= '&')
+      : (c <= '+' || (c >= '-' && c <= '/')))
+    : (c <= '@' || (c < '|'
+      ? (c < '^'
+        ? c == '\\'
+        : c <= '^')
+      : (c <= '|' || c == '~'))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
