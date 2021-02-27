@@ -4753,6 +4753,7 @@
       "function_expression"
     ]
   ],
+  "precedences": [],
   "externals": [
     {
       "type": "SYMBOL",
