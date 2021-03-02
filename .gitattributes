@@ -1,4 +1,4 @@
+/bindings/** linguist-vendored
 /src/** linguist-vendored
 /src/scanner.cc -linguist-vendored
 binding.gyp linguist-vendored
-index.js linguist-vendored

@@ -1,0 +1,25 @@
+[package]
+name = "tree-sitter-curry"
+description = "Curry grammar for tree-sitter"
+version = "0.0.1"
+keywords = ["curry", "grammar", "parser", "tree-sitter"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/matthesjh/tree-sitter-curry"
+edition = "2018"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.17.1"
+
+[build-dependencies]
+cc = "1.0"
