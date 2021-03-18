@@ -1847,6 +1847,20 @@ static inline bool sym__operator_character_set_3(int32_t c) {
       : (c <= '|' || c == '~'))));
 }
 
+static inline bool sym_char_character_set_1(int32_t c) {
+  return (c < 'f'
+    ? (c < '\\'
+      ? (c < '\''
+        ? c == '"'
+        : c <= '\'')
+      : (c <= '\\' || (c >= 'a' && c <= 'b')))
+    : (c <= 'f' || (c < 't'
+      ? (c < 'r'
+        ? c == 'n'
+        : c <= 'r')
+      : (c <= 't' || c == 'v'))));
+}
+
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
   START_LEXER();
   eof = lexer->eof(lexer);
@@ -2319,16 +2333,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '^') ADVANCE(72);
       if (lookahead == 'o') ADVANCE(66);
       if (lookahead == 'x') ADVANCE(71);
-      if (lookahead == '"' ||
-          lookahead == '\'' ||
-          lookahead == '\\' ||
-          lookahead == 'a' ||
-          lookahead == 'b' ||
-          lookahead == 'f' ||
-          lookahead == 'n' ||
-          lookahead == 'r' ||
-          lookahead == 't' ||
-          lookahead == 'v') ADVANCE(17);
+      if (sym_char_character_set_1(lookahead)) ADVANCE(17);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(20);
       END_STATE();
     case 38:
