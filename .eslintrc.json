@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": "eslint:recommended",
   "env": {
     "es6": true,
@@ -22,7 +23,6 @@
   "reportUnusedDisableDirectives": true,
   "rules": {
     "no-extra-parens": ["error", "all"],
-    "no-loss-of-precision": "error",
     "no-template-curly-in-string": "error",
     "no-unreachable-loop": "error",
     "accessor-pairs": ["error", {"getWithoutSet": false, "setWithoutGet": true}],
