@@ -6,6 +6,7 @@ keywords = ["curry", "grammar", "parser", "tree-sitter"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/matthesjh/tree-sitter-curry"
 edition = "2018"
+license = "MIT"
 
 build = "bindings/rust/build.rs"
 include = [
@@ -19,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.17.4"
+tree-sitter = "~0.20.10"
 
 [build-dependencies]
 cc = "1.0"
