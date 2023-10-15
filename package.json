@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-curry",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Curry grammar for tree-sitter",
   "author": "Jan-Hendrik Matthes",
   "main": "bindings/node",
