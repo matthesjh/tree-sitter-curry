@@ -4729,10 +4729,6 @@
       "basic_expression"
     ],
     [
-      "constructor_pattern",
-      "_literal"
-    ],
-    [
       "negative_pattern",
       "_literal"
     ],

@@ -46,7 +46,6 @@ module.exports = grammar({
     [$.constructor_pattern, $.simple_pattern],
     [$.constructor_pattern, $.basic_expression],
     [$.constructor_pattern, $.simple_pattern, $.basic_expression],
-    [$.constructor_pattern, $._literal],
     [$.negative_pattern, $._literal],
     [$.functional_pattern, $.basic_expression],
     [$.field_pattern, $.general_data_constructor],
