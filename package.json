@@ -23,7 +23,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "nan": "^2.18.0"
+    "nan": "^2.19.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
