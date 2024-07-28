@@ -4,5 +4,9 @@ npm-debug.log
 build/
 node_modules/
 
+# Rust
 Cargo.lock
 target/
+
+# Swift
+.build
