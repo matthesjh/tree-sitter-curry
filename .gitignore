@@ -10,3 +10,6 @@ target/
 
 # Swift
 .build
+
+# WebAssembly
+*.wasm
