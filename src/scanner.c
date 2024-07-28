@@ -21,12 +21,14 @@ static unsigned scanner_serialize(struct Scanner *self, char *buffer) {
   size_t i = 0;
   buffer[i++] = self->queued_close_brace_count;
 
-  uint16_t
-    *iter = array_front(&self->indent_length_stack),
-    *end = array_back(&self->indent_length_stack);
+  if (self->indent_length_stack.size > 0) {
+    uint16_t
+      *iter = array_front(&self->indent_length_stack),
+      *end = array_back(&self->indent_length_stack);
 
-  for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
-    buffer[i++] = *iter;
+    for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
+      buffer[i++] = *iter;
+    }
   }
 
   return i;
