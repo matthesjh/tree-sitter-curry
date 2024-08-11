@@ -1,4 +1,8 @@
-/bindings/** linguist-vendored
-/src/** linguist-vendored
-/src/scanner.c -linguist-vendored
-binding.gyp linguist-vendored
+/src/** linguist-generated
+/src/scanner.c -linguist-generated
+
+/bindings/** linguist-generated
+binding.gyp linguist-generated
+setup.py linguist-generated
+Makefile linguist-generated
+Package.swift linguist-generated
