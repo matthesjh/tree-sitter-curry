@@ -1,3 +1,4 @@
 /bindings/** linguist-vendored
 /src/** linguist-vendored
+/src/scanner.c -linguist-vendored
 binding.gyp linguist-vendored
