@@ -62,7 +62,8 @@
       "file-types": [
         "curry"
       ],
-      "first-line-regex": "#!.*\\bruncurry$"
+      "first-line-regex": "#!.*\\bruncurry$",
+      "injection-regex": "^curry$"
     }
   ]
 }
