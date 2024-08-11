@@ -1,4 +1,4 @@
-module github.com/tree-sitter/tree-sitter-curry
+module github.com/matthesjh/tree-sitter-curry
 
 go 1.22
 
