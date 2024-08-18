@@ -4,11 +4,20 @@
   "description": "Curry grammar for tree-sitter",
   "author": "Jan-Hendrik Matthes",
   "main": "bindings/node",
+  "types": "bindings/node",
   "keywords": [
     "curry",
     "grammar",
     "parser",
     "tree-sitter"
+  ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
   ],
   "homepage": "https://github.com/matthesjh/tree-sitter-curry",
   "repository": {
@@ -23,17 +32,29 @@
     "node": ">=18"
   },
   "dependencies": {
-    "nan": "^2.19.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "tree-sitter-cli": "^0.21.0"
+    "prebuildify": "^6.0.0",
+    "tree-sitter-cli": "^0.22.6"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate --no-bindings",
     "generate": "tree-sitter generate",
     "test": "tree-sitter test",
-    "lint": "eslint *.js"
+    "lint": "eslint *.js",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "tree-sitter": [
     {
@@ -41,7 +62,8 @@
       "file-types": [
         "curry"
       ],
-      "first-line-regex": "#!.*\\bruncurry$"
+      "first-line-regex": "#!.*\\bruncurry$",
+      "injection-regex": "^curry$"
     }
   ]
 }
