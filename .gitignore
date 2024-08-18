@@ -7,13 +7,11 @@ target/
 # Node artifacts
 build/
 prebuilds/
-npm-debug.log
 node_modules/
 *.tgz
 
 # Swift artifacts
 .build/
-Package.resolved
 
 # Go artifacts
 go.sum

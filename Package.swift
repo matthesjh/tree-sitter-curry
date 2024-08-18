@@ -28,6 +28,7 @@ let package = Package(
                     "test",
                     "examples",
                     ".editorconfig",
+                    ".eslintrc.json",
                     ".github",
                     ".gitignore",
                     ".gitattributes",
