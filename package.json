@@ -19,7 +19,8 @@
     "bindings/node/*",
     "prebuilds/**",
     "queries/*",
-    "src/**"
+    "src/**",
+    "*.wasm"
   ],
   "homepage": "https://github.com/matthesjh/tree-sitter-curry",
   "repository": {
@@ -34,7 +35,7 @@
   },
   "dependencies": {
     "node-addon-api": "^8.1.0",
-    "node-gyp-build": "^4.8.1"
+    "node-gyp-build": "^4.8.2"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"
@@ -47,15 +48,13 @@
   "devDependencies": {
     "eslint": "^8.57.0",
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.22.6"
+    "tree-sitter-cli": "^0.23.0"
   },
   "scripts": {
     "install": "node-gyp-build",
-    "prebuildify": "prebuildify --napi --strip",
-    "build": "tree-sitter generate --no-bindings",
-    "build-wasm": "tree-sitter build --wasm",
-    "test": "tree-sitter test",
-    "parse": "tree-sitter parse",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "node --test bindings/node/*_test.js && npx tree-sitter test",
     "lint": "eslint *.js"
   },
   "tree-sitter": [
