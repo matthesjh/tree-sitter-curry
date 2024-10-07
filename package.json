@@ -13,13 +13,13 @@
     "curry"
   ],
   "files": [
-    "binding.gyp",
-    "grammar.js",
-    "CHANGELOG.md",
     "bindings/node/*",
     "prebuilds/**",
     "queries/*",
     "src/**",
+    "binding.gyp",
+    "CHANGELOG.md",
+    "grammar.js",
     "*.wasm"
   ],
   "homepage": "https://github.com/matthesjh/tree-sitter-curry",
@@ -37,6 +37,11 @@
     "node-addon-api": "^8.1.0",
     "node-gyp-build": "^4.8.2"
   },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prebuildify": "^6.0.1",
+    "tree-sitter-cli": "^0.24.2"
+  },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"
   },
@@ -45,26 +50,11 @@
       "optional": true
     }
   },
-  "devDependencies": {
-    "eslint": "^8.57.1",
-    "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.23.0"
-  },
   "scripts": {
     "install": "node-gyp-build",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js && npx tree-sitter test",
     "lint": "eslint *.js"
-  },
-  "tree-sitter": [
-    {
-      "scope": "source.curry",
-      "file-types": [
-        "curry"
-      ],
-      "first-line-regex": "#!.*\\bruncurry$",
-      "injection-regex": "^curry$"
-    }
-  ]
+  }
 }

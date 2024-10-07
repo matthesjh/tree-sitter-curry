@@ -1,0 +1,37 @@
+{
+  "grammars": [
+    {
+      "name": "curry",
+      "camelcase": "Curry",
+      "scope": "source.curry",
+      "path": ".",
+      "file-types": [
+        "curry"
+      ],
+      "injection-regex": "^curry$",
+      "first-line-regex": "#!.*\\bruncurry$"
+    }
+  ],
+  "metadata": {
+    "version": "0.0.3",
+    "license": "MIT",
+    "description": "Curry grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Jan-Hendrik Matthes"
+      }
+    ],
+    "links": {
+      "homepage": "https://github.com/matthesjh/tree-sitter-curry",
+      "repository": "https://github.com/matthesjh/tree-sitter-curry.git"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

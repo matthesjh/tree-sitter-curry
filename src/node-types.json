@@ -1478,6 +1478,7 @@
   {
     "type": "module",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2056,29 +2057,6 @@
         },
         {
           "type": "type_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "qualified_variable_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "module_identifier",
-          "named": true
-        },
-        {
-          "type": "qualified_module_identifier",
-          "named": true
-        },
-        {
-          "type": "variable_identifier",
           "named": true
         }
       ]
