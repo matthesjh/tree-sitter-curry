@@ -20,6 +20,7 @@
     "binding.gyp",
     "CHANGELOG.md",
     "grammar.js",
+    "tree-sitter.json",
     "*.wasm"
   ],
   "homepage": "https://github.com/matthesjh/tree-sitter-curry",
@@ -34,13 +35,13 @@
     "node": ">=18"
   },
   "dependencies": {
-    "node-addon-api": "^8.2.1",
-    "node-gyp-build": "^4.8.2"
+    "node-addon-api": "^8.2.2",
+    "node-gyp-build": "^4.8.3"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.24.3"
+    "tree-sitter-cli": "^0.24.4"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"

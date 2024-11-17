@@ -9,7 +9,6 @@ version = "0.0.3"
 keywords = ["incremental", "parsing", "tree-sitter", "curry"]
 classifiers = [
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
   "Topic :: Text Processing :: Linguistic",
   "Typing :: Typed",
