@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "node-addon-api": "^8.3.0",
-    "node-gyp-build": "^4.8.3"
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
