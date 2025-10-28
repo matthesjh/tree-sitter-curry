@@ -54,6 +54,7 @@
   },
   "scripts": {
     "install": "node-gyp-build",
+    "generate": "tree-sitter generate --abi 14",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js && npx tree-sitter test",
