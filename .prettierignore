@@ -1,0 +1,39 @@
+# Generated source files
+src/*.json
+src/parser.c
+src/tree_sitter/*
+
+# C bindings
+bindings/c/**
+CMakeLists.txt
+Makefile
+
+# Rust bindings
+bindings/rust/*
+Cargo.toml
+Cargo.lock
+
+# Node.js bindings
+bindings/node/*
+binding.gyp
+package-lock.json
+
+# Python bindings
+bindings/python/**
+setup.py
+pyproject.toml
+
+# Go bindings
+bindings/go/*
+go.mod
+go.sum
+
+# Swift bindings
+bindings/swift/**
+Package.swift
+Package.resolved
+
+# Zig bindings
+bindings/zig/*
+build.zig
+build.zig.zon

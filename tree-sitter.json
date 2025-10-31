@@ -6,9 +6,7 @@
       "camelcase": "Curry",
       "title": "Curry",
       "scope": "source.curry",
-      "file-types": [
-        "curry"
-      ],
+      "file-types": ["curry"],
       "injection-regex": "^curry$",
       "first-line-regex": "#!.*\\bruncurry$",
       "class-name": "TreeSitterCurry"

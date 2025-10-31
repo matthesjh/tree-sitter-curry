@@ -41,6 +41,7 @@
   "devDependencies": {
     "eslint": "^8.57.1",
     "prebuildify": "^6.0.1",
+    "prettier": "^3.6.2",
     "tree-sitter": "^0.25.0",
     "tree-sitter-cli": "^0.25.10"
   },
@@ -58,6 +59,8 @@
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js && npx tree-sitter test",
-    "lint": "eslint *.js"
+    "lint": "eslint *.js",
+    "format:check": "prettier --log-level warn --check .",
+    "format:write": "prettier --log-level silent --write ."
   }
 }
