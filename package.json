@@ -41,7 +41,7 @@
   "devDependencies": {
     "eslint": "^8.57.1",
     "prebuildify": "^6.0.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.4",
     "tree-sitter": "^0.25.0",
     "tree-sitter-cli": "^0.25.10"
   },
