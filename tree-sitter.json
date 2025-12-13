@@ -28,6 +28,7 @@
   "bindings": {
     "c": true,
     "go": true,
+    "java": false,
     "node": true,
     "python": true,
     "rust": true,

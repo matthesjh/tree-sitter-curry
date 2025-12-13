@@ -5,7 +5,7 @@ const PREC = {
   PRAGMA: 1,
 }
 
-module.exports = grammar({
+export default grammar({
   name: 'curry',
 
   extras: $ => [$.pragma, $.cpp_directive, $.comment, /\s/],
