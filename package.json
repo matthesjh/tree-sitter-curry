@@ -59,8 +59,9 @@
     "generate": "tree-sitter generate",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
-    "test": "node --test bindings/node/*_test.js && npx tree-sitter test",
-    "lint": "eslint *.js",
+    "test": "node --test bindings/node/*_test.js && tree-sitter test",
+    "lint:check": "eslint . --ext .js,.ts --max-warnings 0",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
     "format:check": "prettier --log-level warn --check .",
     "format:write": "prettier --log-level silent --write ."
   }
