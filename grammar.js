@@ -796,26 +796,14 @@ export default grammar({
   },
 })
 
-function sep1(sep, rule) {
-  return seq(rule, repeat(seq(sep, rule)))
-}
+const sep1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)))
 
-function sep2(sep, rule) {
-  return seq(rule, sep, sep1(sep, rule))
-}
+const sep2 = (sep, rule) => seq(rule, sep, sep1(sep, rule))
 
-function parens(rule) {
-  return seq('(', rule, ')')
-}
+const parens = rule => seq('(', rule, ')')
 
-function brackets(rule) {
-  return seq('[', rule, ']')
-}
+const brackets = rule => seq('[', rule, ']')
 
-function braces(rule) {
-  return seq('{', rule, '}')
-}
+const braces = rule => seq('{', rule, '}')
 
-function backticks(rule) {
-  return seq('`', rule, '`')
-}
+const backticks = rule => seq('`', rule, '`')
