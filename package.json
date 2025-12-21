@@ -61,7 +61,7 @@
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js && tree-sitter test",
-    "setup": "npm rebuild tree-sitter tree-sitter-cli --ignore-scripts false",
+    "setup": "npm rebuild tree-sitter tree-sitter-cli --ignore-scripts false && node-gyp-build",
     "generate": "tree-sitter generate",
     "lint:check": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
