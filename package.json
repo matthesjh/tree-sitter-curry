@@ -56,10 +56,11 @@
   },
   "scripts": {
     "install": "node-gyp-build",
-    "generate": "tree-sitter generate",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js && tree-sitter test",
+    "setup": "npm rebuild tree-sitter tree-sitter-cli --ignore-scripts false",
+    "generate": "tree-sitter generate",
     "lint:check": "eslint . --ext .js,.ts --max-warnings 0",
     "lint:fix": "eslint . --ext .js,.ts --fix",
     "format:check": "prettier --log-level warn --check .",
