@@ -5,6 +5,18 @@ const PREC = {
   PRAGMA: 1,
 }
 
+const sep1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)))
+
+const sep2 = (sep, rule) => seq(rule, sep, sep1(sep, rule))
+
+const parens = rule => seq('(', rule, ')')
+
+const brackets = rule => seq('[', rule, ']')
+
+const braces = rule => seq('{', rule, '}')
+
+const backticks = rule => seq('`', rule, '`')
+
 export default grammar({
   name: 'curry',
 
@@ -795,15 +807,3 @@ export default grammar({
       choice('()', '[]', $.tuple_constructor, $._qualified_data_constructor),
   },
 })
-
-const sep1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)))
-
-const sep2 = (sep, rule) => seq(rule, sep, sep1(sep, rule))
-
-const parens = rule => seq('(', rule, ')')
-
-const brackets = rule => seq('[', rule, ']')
-
-const braces = rule => seq('{', rule, '}')
-
-const backticks = rule => seq('`', rule, '`')
