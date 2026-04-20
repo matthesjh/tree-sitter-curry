@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-curry
-        VERSION "0.0.3"
+        VERSION "0.0.4"
         DESCRIPTION "Curry grammar for tree-sitter"
         HOMEPAGE_URL "https://github.com/matthesjh/tree-sitter-curry"
         LANGUAGES C)

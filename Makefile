@@ -1,6 +1,6 @@
 LANGUAGE_NAME := tree-sitter-curry
 HOMEPAGE_URL := https://github.com/matthesjh/tree-sitter-curry
-VERSION := 0.0.3
+VERSION := 0.0.4
 
 # repository
 SRC_DIR := src
