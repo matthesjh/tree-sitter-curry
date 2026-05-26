@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Updated `tree-sitter` to version 0.26.9
+
 ## 0.0.4 (2026-04-20)
 
 - Requires Node.js version 20 or later
