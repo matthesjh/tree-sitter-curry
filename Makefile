@@ -1,6 +1,7 @@
 LANGUAGE_NAME := tree-sitter-curry
 HOMEPAGE_URL := https://github.com/matthesjh/tree-sitter-curry
 VERSION := 0.0.4
+DESCRIPTION := Curry grammar for tree-sitter
 
 # repository
 SRC_DIR := src

@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Updated `tree-sitter` to version 0.26.9
+- Updated `tree-sitter` to version 0.26.10
 
 ## 0.0.4 (2026-04-20)
 
