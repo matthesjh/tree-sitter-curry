@@ -1,25 +1,18 @@
 [package]
-name = "tree-sitter-curry"
-description = "Curry grammar for tree-sitter"
-version = "0.0.4"
-authors = ["Jan-Hendrik Matthes"]
-license = "MIT"
-readme = "README.md"
-keywords = ["incremental", "parsing", "tree-sitter", "curry"]
-categories = ["parser-implementations", "parsing", "text-editors"]
-repository = "https://github.com/matthesjh/tree-sitter-curry.git"
-edition = "2021"
+authors = [ "Jan-Hendrik Matthes" ]
 autoexamples = false
+categories = [ "parser-implementations", "parsing", "text-editors" ]
+description = "Curry grammar for tree-sitter"
+edition = "2024"
+keywords = [ "incremental", "parsing", "tree-sitter", "curry" ]
+license = "MIT"
+name = "tree-sitter-curry"
+readme = "README.md"
+repository = "https://github.com/matthesjh/tree-sitter-curry.git"
+version = "0.0.4"
 
 build = "bindings/rust/build.rs"
-include = [
-  "bindings/rust/*",
-  "grammar.js",
-  "queries/*",
-  "src/*",
-  "tree-sitter.json",
-  "/LICENSE",
-]
+include = [ "bindings/rust/*", "grammar.js", "queries/*", "src/*", "tree-sitter.json", "/LICENSE" ]
 
 [lib]
 path = "bindings/rust/lib.rs"
@@ -31,4 +24,4 @@ tree-sitter-language = "0.1"
 cc = "1.2"
 
 [dev-dependencies]
-tree-sitter = "0.26.12"
+tree-sitter = "0.27.0"

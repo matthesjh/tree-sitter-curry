@@ -1,28 +1,28 @@
 [build-system]
-requires = ["setuptools>=62.4.0", "wheel"]
 build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=62.4.0", "wheel" ]
 
 [project]
-name = "tree-sitter-curry"
-description = "Curry grammar for tree-sitter"
-version = "0.0.4"
-keywords = ["incremental", "parsing", "tree-sitter", "curry"]
+authors = [ { name = "Jan-Hendrik Matthes" } ]
 classifiers = [
   "Intended Audience :: Developers",
   "Topic :: Software Development :: Compilers",
   "Topic :: Text Processing :: Linguistic",
   "Typing :: Typed",
 ]
-authors = [{ name = "Jan-Hendrik Matthes" }]
-requires-python = ">=3.10"
+description = "Curry grammar for tree-sitter"
+keywords = [ "incremental", "parsing", "tree-sitter", "curry" ]
 license.text = "MIT"
+name = "tree-sitter-curry"
 readme = "README.md"
+requires-python = ">=3.10"
+version = "0.0.4"
 
 [project.urls]
 Homepage = "https://github.com/matthesjh/tree-sitter-curry"
 
 [project.optional-dependencies]
-core = ["tree-sitter~=0.24"]
+core = [ "tree-sitter~=0.24" ]
 
 [tool.cibuildwheel]
 build = "cp310-*"
