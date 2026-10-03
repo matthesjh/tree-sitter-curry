@@ -33,7 +33,7 @@
     "url": "https://github.com/matthesjh/tree-sitter-curry/issues"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "dependencies": {
     "node-addon-api": "^8.9.2",
